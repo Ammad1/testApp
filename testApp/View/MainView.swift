@@ -9,9 +9,9 @@ import UIKit
 
 class MainView: UIView {
 
-    @IBOutlet weak var searchOuterView: UIView!
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var tableView: UITableView!
+//    @IBOutlet weak var searchOuterView: UIView!
+//    @IBOutlet weak var searchTextField: UITextField!
+//    @IBOutlet weak var tableView: UITableView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,18 +20,18 @@ class MainView: UIView {
     }
 
     private func setupViews() {
-        tableView.tableFooterView = UIView()
-        searchTextField.text = ""
-        searchOuterView.layer.cornerRadius = searchOuterView.frame.height / 2.0
-        searchOuterView.layer.borderColor = UIColor.lightGray.cgColor
-        searchOuterView.layer.borderWidth = 1.0
-        
-        tableView.contentInset.bottom = 20.0
+//        tableView.tableFooterView = UIView()
+//        searchTextField.text = ""
+//        searchOuterView.layer.cornerRadius = searchOuterView.frame.height / 2.0
+//        searchOuterView.layer.borderColor = UIColor.lightGray.cgColor
+//        searchOuterView.layer.borderWidth = 1.0
+//
+//        tableView.contentInset.bottom = 20.0
     }
     
-    private func initiateView() {
-        let textField = UITextField()
-        textField.borderStyle = .none
+    func initiateView() {
+        let searchTextField = UITextField()
+        searchTextField.borderStyle = .none
         
         let searchIconImage = UIImageView()
         searchIconImage.contentMode = .scaleAspectFit
@@ -41,12 +41,12 @@ class MainView: UIView {
         let headerView = UIView()
         
         searchOuterView.addSubview(searchIconImage)
-        searchOuterView.addSubview(textField)
+        searchOuterView.addSubview(searchTextField)
         headerView.addSubview(searchOuterView)
         
         searchOuterView.translatesAutoresizingMaskIntoConstraints = false
         headerView.translatesAutoresizingMaskIntoConstraints = false
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        searchTextField.translatesAutoresizingMaskIntoConstraints = false
         searchIconImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(headerView)
         

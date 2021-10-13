@@ -16,7 +16,7 @@ class MainViewController: BaseViewController {
 
     var isPaginationCompleted = false
     
-    @IBOutlet var mainView: MainView!
+    var mainView = MainView()
     
     private let viewModel = MainControllerViewModel()
     private let spinner = UIActivityIndicatorView(style: .medium)
@@ -25,21 +25,83 @@ class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        mainView.tableView.delegate = self
-        mainView.tableView.dataSource = self
-        spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: mainView.tableView.bounds.width, height: CGFloat(40))
+        initiateView()
+        
+        
+//        mainView.tableView.delegate = self
+//        mainView.tableView.dataSource = self
+//        spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: mainView.tableView.bounds.width, height: CGFloat(40))
 ////        testCoreData()
 //        fetchData()
-       fetchUsers(isFirstTime: true)
+//       fetchUsers(isFirstTime: true)
     }
 
-    private func fetchData() {
-        do {
-            try context.fetch(User.fetchRequest())
-        } catch {
-            self.showAlert(message: "Error")
-        }
+    func initiateView() {
+        let searchTextField = UITextField()
+        searchTextField.borderStyle = .none
+        searchTextField.backgroundColor = .systemBackground
+        searchTextField.text = ""
+        searchTextField.placeholder = "Type username to search..."
+        
+        let searchIconImage = UIImageView()
+        searchIconImage.contentMode = .scaleAspectFit
+        searchIconImage.tintColor = .gray
+        searchIconImage.image = UIImage(systemName: "magnifyingglass")
+        
+        let searchOuterView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+        searchOuterView.layer.borderColor = UIColor.lightGray.cgColor
+        searchOuterView.layer.borderWidth = 1.0
+        
+        let headerView = UIView()
+        headerView.backgroundColor = .systemBackground
+        
+        searchOuterView.addSubview(searchIconImage)
+        searchOuterView.addSubview(searchTextField)
+        headerView.addSubview(searchOuterView)
+        
+        searchOuterView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        searchTextField.translatesAutoresizingMaskIntoConstraints = false
+        searchIconImage.translatesAutoresizingMaskIntoConstraints = false
+        self.view.backgroundColor = .systemBackground
+        self.view.addSubview(headerView)
+        
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            headerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0),
+            headerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0),
+            headerView.heightAnchor.constraint(equalToConstant: 65),
+            
+            searchOuterView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10),
+            searchOuterView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10),
+            searchOuterView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -10),
+            searchOuterView.heightAnchor.constraint(equalToConstant: 40),
+            
+            searchIconImage.bottomAnchor.constraint(equalTo: searchOuterView.bottomAnchor, constant: 0),
+            searchIconImage.leadingAnchor.constraint(equalTo: searchOuterView.leadingAnchor, constant: 10),
+            searchIconImage.topAnchor.constraint(equalTo: searchOuterView.topAnchor, constant: 0),
+            searchIconImage.heightAnchor.constraint(equalToConstant: 20),
+            searchIconImage.widthAnchor.constraint(equalToConstant: 20),
+            
+            searchTextField.bottomAnchor.constraint(equalTo: searchOuterView.bottomAnchor, constant: 0),
+            searchTextField.leadingAnchor.constraint(equalTo: searchIconImage.trailingAnchor, constant: 10),
+            searchTextField.trailingAnchor.constraint(equalTo: searchOuterView.trailingAnchor, constant: 0),
+            searchTextField.topAnchor.constraint(equalTo: searchOuterView.topAnchor, constant: 0),
+            searchTextField.heightAnchor.constraint(equalToConstant: 35),
+            
+        ])
+        
+        searchOuterView.layer.cornerRadius = searchOuterView.frame.height / 2.0
+        searchOuterView.clipsToBounds = true
     }
+//    private func fetchData() {
+//        do {
+//            try context.fetch(User.fetchRequest())
+//        } catch {
+//            self.showAlert(message: "Error")
+//        }
+//    }
+    
     private func testCoreData() {
 //        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 //        let managedContext = appDelegate.container.viewContext
@@ -67,9 +129,9 @@ class MainViewController: BaseViewController {
             DispatchQueue.main.async {
                 LoaderManager.hide(self.view)
                 self.isPaginationCompleted = isFinished
-                self.mainView.tableView.tableFooterView?.isHidden = true
+//                self.mainView.tableView.tableFooterView?.isHidden = true
                 self.spinner.stopAnimating()
-                self.mainView.tableView.reloadData()
+//                self.mainView.tableView.reloadData()
             }
         }, failure: {(code, message) in
             DispatchQueue.main.async {
@@ -124,11 +186,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 //            let isScrollable = mainView.tableView.contentSize.height > (mainView.tableView.superview?.frame.height ?? 0.0)
             if !isPaginationCompleted {
                 spinner.startAnimating()
-                mainView.tableView.tableFooterView = spinner
-                mainView.tableView.tableFooterView?.isHidden = false
+//                mainView.tableView.tableFooterView = spinner
+//                mainView.tableView.tableFooterView?.isHidden = false
                 fetchUsers()
             } else {
-                mainView.tableView.tableFooterView = UIView()
+//                mainView.tableView.tableFooterView = UIView()
             }
         }
     }
@@ -151,7 +213,7 @@ extension MainViewController: NoteUpdateDelegate {
     func updateNote(forUserId id: Int?, data: String) {
         viewModel.updateUserNotes(forUserId: id, noteData: data)
         DispatchQueue.main.async {
-            self.mainView.tableView.reloadData()
+//            self.mainView.tableView.reloadData()
         }
     }
 }

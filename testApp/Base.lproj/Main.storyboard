@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FEw-Sf-ITc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -9,11 +9,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Main View Controller-->
+        <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="testApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="MainView" customModule="testApp" customModuleProvider="target">
+                <viewController id="BYZ-38-t0r" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -162,16 +162,8 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="GX5-4V-DBp" secondAttribute="bottom" id="N7A-Tf-GJy"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="GX5-4V-DBp" secondAttribute="trailing" id="Th1-MZ-75z"/>
                         </constraints>
-                        <connections>
-                            <outlet property="searchOuterView" destination="8mC-9Y-Usf" id="zBW-lh-lI7"/>
-                            <outlet property="searchTextField" destination="epn-Gk-njR" id="t7L-fn-c8q"/>
-                            <outlet property="tableView" destination="DTu-oL-Vh0" id="v0n-ji-q2e"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="VAH-Pi-ZCx"/>
-                    <connections>
-                        <outlet property="mainView" destination="8bC-Xf-vdC" id="99w-kT-7he"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
