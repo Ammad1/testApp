@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "UserDetailsViewController.viewDidLoad():UserDetailsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "viewModel.notesData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ReachabilityManager.networkStatusChanged(_:):ReachabilityManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "reachability?.connection">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
