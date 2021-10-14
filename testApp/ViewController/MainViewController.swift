@@ -25,11 +25,22 @@ class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        initiateView()
+        self.view.backgroundColor = .systemBackground
+        self.view.addSubview(mainView)
+        mainView.translatesAutoresizingMaskIntoConstraints = false
         
+        NSLayoutConstraint.activate([
+            mainView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            mainView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0),
+            mainView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0),
+            mainView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+        ])
+        mainView.initiateView()
         
-//        mainView.tableView.delegate = self
-//        mainView.tableView.dataSource = self
+        mainView.tableView.register(UserListTableViewCell.self, forCellReuseIdentifier: AppConstants.Identifier.MainControllerCell)
+        mainView.tableView.reloadData()
+        mainView.tableView.delegate = self
+        mainView.tableView.dataSource = self
 //        spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: mainView.tableView.bounds.width, height: CGFloat(40))
 ////        testCoreData()
 //        fetchData()
@@ -150,20 +161,21 @@ class MainViewController: BaseViewController {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.users.count
+//        return viewModel.users.count
+        return 8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AppConstants.Identifier.MainControllerCell) as? UserListTableViewCell else {
             return UITableViewCell()
         }
-        let user = viewModel.users[indexPath.row]
+//        let user = viewModel.users[indexPath.row]
         cell.configure()
         var isInverted = false
         if ((indexPath.row + 1) % 4) == 0 {
             isInverted = true
         }
-        cell.setData(user, isInvertedImage: isInverted)
+//        cell.setData(user, isInvertedImage: isInverted)
         return cell
     }
     
@@ -176,6 +188,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         controller.viewModel.notesData = user.notes
         controller.delegate = self
         self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

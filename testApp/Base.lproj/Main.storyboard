@@ -132,12 +132,6 @@
                                                         <constraint firstItem="56Y-hm-bXD" firstAttribute="leading" secondItem="ijy-bd-WDg" secondAttribute="leading" constant="10" id="i4q-ye-TB8"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
-                                                <connections>
-                                                    <outlet property="dataOuterView" destination="56Y-hm-bXD" id="OoZ-hQ-GvV"/>
-                                                    <outlet property="noteIcon" destination="aQg-Sw-NqC" id="a29-dO-Ncs"/>
-                                                    <outlet property="userImageView" destination="zQz-6T-8WV" id="n20-d7-BgA"/>
-                                                    <outlet property="usernameLabel" destination="vm9-ck-PUU" id="9E8-up-haV"/>
-                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
