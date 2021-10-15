@@ -24,6 +24,7 @@ class AppConstants {
         static let addNotesPlaceholder = "Add Notes Here..."
         static let success = "Success"
         static let notesUpdated = "Notes Updated Successfully"
+        static let searchUsernamePlaceholder = "Type username to search..."
     }
     
     struct Url {

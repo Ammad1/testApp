@@ -17,35 +17,34 @@ class MainView: UIView {
     let searchOuterView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
     let headerView = UIView()
     let tableView = UITableView()
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        setupViews()
-    }
-
-    private func setupViews() {
-//        tableView.tableFooterView = UIView()
-//        searchTextField.text = ""
-//        searchOuterView.layer.cornerRadius = searchOuterView.frame.height / 2.0
-//        searchOuterView.layer.borderColor = UIColor.lightGray.cgColor
-//        searchOuterView.layer.borderWidth = 1.0
-//
-//        tableView.contentInset.bottom = 20.0
-    }
+    let noDataView = UIView()
+    let noDataLabel = UILabel()
     
     func initiateView() {
         
-        tableView.backgroundColor = .systemBackground
+        noDataLabel.textColor = .label
+        noDataLabel.textAlignment = .center
+        noDataLabel.text = "No Data Available"
+        noDataLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        
+        noDataView.backgroundColor = .systemBackground
+        noDataView.isHidden = true
+        tableView.isHidden = true
+        
+        tableView.bounces = false
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
+        tableView.showsVerticalScrollIndicator = false
+        tableView.showsHorizontalScrollIndicator = false
         
         searchTextField.borderStyle = .none
         searchTextField.backgroundColor = .systemBackground
         searchTextField.text = ""
-        searchTextField.placeholder = "Type username to search..."
+        searchTextField.placeholder = AppConstants.Message.searchUsernamePlaceholder
         
         searchIconImage.contentMode = .scaleAspectFit
         searchIconImage.tintColor = .gray
-        searchIconImage.image = UIImage(systemName: "magnifyingglass")
+        searchIconImage.image = .searchIcon
         
         searchOuterView.layer.borderColor = UIColor.lightGray.cgColor
         searchOuterView.layer.borderWidth = 1.0
@@ -67,9 +66,13 @@ class MainView: UIView {
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         searchIconImage.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        noDataView.translatesAutoresizingMaskIntoConstraints = false
+        noDataLabel.translatesAutoresizingMaskIntoConstraints = false
         
         self.backgroundColor = .systemBackground
         self.addSubview(headerView)
+        noDataView.addSubview(noDataLabel)
+        self.addSubview(noDataView)
         self.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -100,7 +103,22 @@ class MainView: UIView {
             tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
             tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 15),
             
+            noDataView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
+            noDataView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+            noDataView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+            noDataView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 15),
+            
+            noDataLabel.leadingAnchor.constraint(equalTo: noDataView.leadingAnchor, constant: 10),
+            noDataLabel.trailingAnchor.constraint(equalTo: noDataView.trailingAnchor, constant: -10),
+            noDataLabel.heightAnchor.constraint(equalToConstant: 25),
+            noDataLabel.centerYAnchor.constraint(equalTo: noDataView.centerYAnchor),
+           
         ])
         
+    }
+    
+    func updateViews(isDataAvailable isAvailable: Bool) {
+        noDataView.isHidden = isAvailable
+        tableView.isHidden = !isAvailable
     }
 }

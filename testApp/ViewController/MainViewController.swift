@@ -44,7 +44,7 @@ class MainViewController: BaseViewController {
 //        spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: mainView.tableView.bounds.width, height: CGFloat(40))
 ////        testCoreData()
 //        fetchData()
-//       fetchUsers(isFirstTime: true)
+       fetchUsers(isFirstTime: true)
     }
 
     func initiateView() {
@@ -139,10 +139,12 @@ class MainViewController: BaseViewController {
         viewModel.fetchUsers(success: { isFinished in
             DispatchQueue.main.async {
                 LoaderManager.hide(self.view)
+                
                 self.isPaginationCompleted = isFinished
-//                self.mainView.tableView.tableFooterView?.isHidden = true
+                self.mainView.tableView.tableFooterView?.isHidden = true
                 self.spinner.stopAnimating()
-//                self.mainView.tableView.reloadData()
+                self.mainView.tableView.reloadData()
+                self.mainView.updateViews(isDataAvailable: self.viewModel.users.count > 0)
             }
         }, failure: {(code, message) in
             DispatchQueue.main.async {
@@ -161,21 +163,20 @@ class MainViewController: BaseViewController {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return viewModel.users.count
-        return 8
+        return viewModel.users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AppConstants.Identifier.MainControllerCell) as? UserListTableViewCell else {
             return UITableViewCell()
         }
-//        let user = viewModel.users[indexPath.row]
+        let user = viewModel.users[indexPath.row]
         cell.configure()
         var isInverted = false
         if ((indexPath.row + 1) % 4) == 0 {
             isInverted = true
         }
-//        cell.setData(user, isInvertedImage: isInverted)
+        cell.setData(user, isInvertedImage: isInverted)
         return cell
     }
     
@@ -190,10 +191,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
-    }
-    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let lastSectionIndex = tableView.numberOfSections - 1
         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
@@ -202,11 +199,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 //            let isScrollable = mainView.tableView.contentSize.height > (mainView.tableView.superview?.frame.height ?? 0.0)
             if !isPaginationCompleted {
                 spinner.startAnimating()
-//                mainView.tableView.tableFooterView = spinner
-//                mainView.tableView.tableFooterView?.isHidden = false
+                mainView.tableView.tableFooterView = spinner
+                mainView.tableView.tableFooterView?.isHidden = false
                 fetchUsers()
             } else {
-//                mainView.tableView.tableFooterView = UIView()
+                mainView.tableView.tableFooterView = UIView()
             }
         }
     }
@@ -229,7 +226,7 @@ extension MainViewController: NoteUpdateDelegate {
     func updateNote(forUserId id: Int?, data: String) {
         viewModel.updateUserNotes(forUserId: id, noteData: data)
         DispatchQueue.main.async {
-//            self.mainView.tableView.reloadData()
+            self.mainView.tableView.reloadData()
         }
     }
 }

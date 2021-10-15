@@ -11,6 +11,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "MainViewController.tableView(_:didSelectRowAt:):MainViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "viewModel.users">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ReachabilityManager.networkStatusChanged(_:):ReachabilityManager.swift">
          <PersistentStrings>
             <PersistentString

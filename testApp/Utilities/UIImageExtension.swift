@@ -13,6 +13,14 @@ extension UIImage {
         return UIImage(named: "no_user_image")
     }
     
+    static var searchIcon: UIImage? {
+        return UIImage(systemName: "magnifyingglass")
+    }
+    
+    static var noteIcon: UIImage? {
+        return UIImage(systemName: "note.text")
+    }
+    
     func inverseImage() -> UIImage {
         
         guard let cgImage = self.cgImage else { return self }
