@@ -9,9 +9,6 @@ import UIKit
 
 class MainView: UIView {
 
-//    @IBOutlet weak var searchOuterView: UIView!
-//    @IBOutlet weak var searchTextField: UITextField!
-//    @IBOutlet weak var tableView: UITableView!
     let searchTextField = UITextField()
     let searchIconImage = UIImageView()
     let searchOuterView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))

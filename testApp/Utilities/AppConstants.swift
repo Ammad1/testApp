@@ -25,6 +25,8 @@ class AppConstants {
         static let success = "Success"
         static let notesUpdated = "Notes Updated Successfully"
         static let searchUsernamePlaceholder = "Type username to search..."
+        static let internetUnavailable = "Internet not available."
+        static let checkConnection = "Check you connection and try again..!!"
     }
     
     struct Url {

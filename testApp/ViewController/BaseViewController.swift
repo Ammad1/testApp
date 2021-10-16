@@ -72,17 +72,4 @@ class BaseViewController: UIViewController {
             super.overrideUserInterfaceStyle = newValue
         }
     }
-
-//    func showLoader() {
-//        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "LoaderViewController") as? LoaderViewController else {
-//            return
-//        }
-//        controller.modalTransitionStyle = .crossDissolve
-//        controller.modalPresentationStyle = .overFullScreen
-//        self.present(controller, animated: true, completion: nil)
-//    }
-//    
-//    func hideLoader() {
-//        self.presentedViewController?.dismiss(animated: true, completion: nil)
-//    }
 }

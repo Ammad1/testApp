@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		2539C06A270A336500F0FEED /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2539C069270A336500F0FEED /* NotificationExtension.swift */; };
 		25582865270F784300EC9CEB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25582864270F784300EC9CEB /* MainView.swift */; };
+		259E0EE9271AE5C4002BA512 /* UserDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* UserDataModel.xcdatamodeld */; };
+		259E0EEC271AE60A002BA512 /* UserDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* UserDataModel.xcdatamodeld */; };
+		259E0EED271AE60B002BA512 /* UserDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* UserDataModel.xcdatamodeld */; };
 		25D2D5A4270633CB00419E4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5A3270633CB00419E4B /* AppDelegate.swift */; };
 		25D2D5A6270633CB00419E4B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5A5270633CB00419E4B /* SceneDelegate.swift */; };
 		25D2D5AB270633CB00419E4B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25D2D5A9270633CB00419E4B /* Main.storyboard */; };
@@ -25,9 +28,7 @@
 		25D2D5E427091ECC00419E4B /* UserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5E327091ECC00419E4B /* UserDetailsViewController.swift */; };
 		25D2D5E627091EE500419E4B /* UserDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5E527091EE500419E4B /* UserDetailsViewModel.swift */; };
 		25D2D5E927091F1100419E4B /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5E827091F1100419E4B /* AppConstants.swift */; };
-		25D2D5EB270928D800419E4B /* LoaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5EA270928D800419E4B /* LoaderViewController.swift */; };
 		25D2D5ED270928F700419E4B /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5EC270928F700419E4B /* UserDetailsView.swift */; };
-		25D2D5EF2709290300419E4B /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5EE2709290300419E4B /* LoaderView.swift */; };
 		25D2D5F12709D61500419E4B /* LoaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5F02709D61500419E4B /* LoaderManager.swift */; };
 		25D2D5F3270A285100419E4B /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5F2270A285100419E4B /* UIImageExtension.swift */; };
 		25DEA1352714CF3E006D9F47 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1342714CF3E006D9F47 /* CoreDataManager.swift */; };
@@ -80,9 +81,7 @@
 		25D2D5E327091ECC00419E4B /* UserDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsViewController.swift; sourceTree = "<group>"; };
 		25D2D5E527091EE500419E4B /* UserDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsViewModel.swift; sourceTree = "<group>"; };
 		25D2D5E827091F1100419E4B /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
-		25D2D5EA270928D800419E4B /* LoaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderViewController.swift; sourceTree = "<group>"; };
 		25D2D5EC270928F700419E4B /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
-		25D2D5EE2709290300419E4B /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		25D2D5F02709D61500419E4B /* LoaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderManager.swift; sourceTree = "<group>"; };
 		25D2D5F2270A285100419E4B /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		25DEA1342714CF3E006D9F47 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataManager.swift; path = emplate/CoreDataManager.swift; sourceTree = "<group>"; };
@@ -200,7 +199,6 @@
 			children = (
 				25D2D5DB2707A4C000419E4B /* UserListTableViewCell.swift */,
 				25D2D5EC270928F700419E4B /* UserDetailsView.swift */,
-				25D2D5EE2709290300419E4B /* LoaderView.swift */,
 				25582864270F784300EC9CEB /* MainView.swift */,
 			);
 			path = View;
@@ -221,7 +219,6 @@
 				25D2D5D7270636D400419E4B /* BaseViewController.swift */,
 				25D2D5D92706372000419E4B /* MainViewController.swift */,
 				25D2D5E327091ECC00419E4B /* UserDetailsViewController.swift */,
-				25D2D5EA270928D800419E4B /* LoaderViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -505,13 +502,12 @@
 				25D2D5E927091F1100419E4B /* AppConstants.swift in Sources */,
 				25DEA1352714CF3E006D9F47 /* CoreDataManager.swift in Sources */,
 				25D2D5E227091E8400419E4B /* UserDetails.swift in Sources */,
-				25D2D5EF2709290300419E4B /* LoaderView.swift in Sources */,
 				25D2D5E02708FC5E00419E4B /* MainControllerViewModel.swift in Sources */,
 				25D2D5D8270636D400419E4B /* BaseViewController.swift in Sources */,
 				25D2D5DE2707A62300419E4B /* User.swift in Sources */,
 				25D2D5A4270633CB00419E4B /* AppDelegate.swift in Sources */,
-				25D2D5EB270928D800419E4B /* LoaderViewController.swift in Sources */,
 				25D2D5ED270928F700419E4B /* UserDetailsView.swift in Sources */,
+				259E0EE9271AE5C4002BA512 /* UserDataModel.xcdatamodeld in Sources */,
 				25D2D5F12709D61500419E4B /* LoaderManager.swift in Sources */,
 				25D2D5E627091EE500419E4B /* UserDetailsViewModel.swift in Sources */,
 				2539C06A270A336500F0FEED /* NotificationExtension.swift in Sources */,
@@ -526,6 +522,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				259E0EEC271AE60A002BA512 /* UserDataModel.xcdatamodeld in Sources */,
 				25D2D5BB270633CE00419E4B /* testAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -534,6 +531,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				259E0EED271AE60B002BA512 /* UserDataModel.xcdatamodeld in Sources */,
 				25D2D5C6270633CE00419E4B /* testAppUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

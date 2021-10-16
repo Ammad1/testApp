@@ -20,7 +20,7 @@ class MainViewController: BaseViewController {
     
     private let viewModel = MainControllerViewModel()
     private let spinner = UIActivityIndicatorView(style: .medium)
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,10 +41,10 @@ class MainViewController: BaseViewController {
         mainView.tableView.reloadData()
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
-//        spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: mainView.tableView.bounds.width, height: CGFloat(40))
-////        testCoreData()
+        spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: mainView.tableView.bounds.width, height: CGFloat(40))
+        testCoreData()
 //        fetchData()
-       fetchUsers(isFirstTime: true)
+//       fetchUsers(isFirstTime: true)
     }
 
     func initiateView() {
@@ -116,15 +116,17 @@ class MainViewController: BaseViewController {
     private func testCoreData() {
 //        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 //        let managedContext = appDelegate.container.viewContext
+//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let context = CoreDataManager.shared.persistentContainer.viewContext
         let userEntity = NSEntityDescription.entity(forEntityName: "User", in: context)!
         let user = NSManagedObject(entity: userEntity, insertInto: context)
-        user.setValue(1, forKey: "id")
-        user.setValue(true, forKey: "boolValue")
-        user.setValue("testOptionalString", forKey: "optionalString")
-        user.setValue("testNonOptionalString", forKey: "nonOptionalString")
+//        user.setValue(1, forKey: "id")
+//        user.setValue(true, forKey: "boolValue")
+//        user.setValue("testOptionalString", forKey: "optionalString")
+//        user.setValue("testNonOptionalString", forKey: "nonOptionalString")
         
         do {
-            try context.save()
+//            try context.save()
             self.showAlert(message: "Success")
         } catch {
             self.showAlert(message: "CoreDataError")
@@ -159,6 +161,16 @@ class MainViewController: BaseViewController {
         
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
+    
+//    override func internetAvailable() {
+//        DispatchQueue.main.async {
+//            self.fetchUsers(isFirstTime: true)
+//        }
+//    }
+//
+//    override func internetUnavailable() {
+//        self.showAlert(title: AppConstants.Message.internetUnavailable, message: AppConstants.Message.checkConnection, completion: nil)
+//    }
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
@@ -171,7 +183,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         let user = viewModel.users[indexPath.row]
-        cell.configure()
+        cell.configure(id: user.id)
         var isInverted = false
         if ((indexPath.row + 1) % 4) == 0 {
             isInverted = true
@@ -195,8 +207,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let lastSectionIndex = tableView.numberOfSections - 1
         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
         if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
-           // print("this is the last cell")
-//            let isScrollable = mainView.tableView.contentSize.height > (mainView.tableView.superview?.frame.height ?? 0.0)
             if !isPaginationCompleted {
                 spinner.startAnimating()
                 mainView.tableView.tableFooterView = spinner
@@ -207,18 +217,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
-    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let height = scrollView.frame.size.height
-//        let contentYoffset = scrollView.contentOffset.y
-//        let distanceFromBottom = scrollView.contentSize.height - contentYoffset
-//        if distanceFromBottom < height {
-//            fetchUsers(completion: {
-//                let indexPath = IndexPath(row: self.viewModel.users.count - 8, section: 0)
-//                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-//            })
-//        }
-//    }
 }
 
 extension MainViewController: NoteUpdateDelegate {
