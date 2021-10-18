@@ -14,6 +14,10 @@ class BaseViewController: UIViewController {
     private var currentModalPresentationStyle: UIModalPresentationStyle = .fullScreen
     let monitor = NWPathMonitor()
     
+    var isInternetAvailable: Bool {
+        return monitor.currentPath.status != .unsatisfied
+    }
+    
     // MARK: Overrided Properties
     override var modalPresentationStyle: UIModalPresentationStyle {
         get {
@@ -28,6 +32,10 @@ class BaseViewController: UIViewController {
         return .darkContent
     }
     
+    deinit {
+        monitor.cancel()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,12 +43,13 @@ class BaseViewController: UIViewController {
         monitor.start(queue: queue)
         
         monitor.pathUpdateHandler = { path in
-            if path.status == .unsatisfied {
-                self.internetUnavailable()
-            } else {
-                self.internetAvailable()
+            DispatchQueue.main.async {
+                if path.status == .unsatisfied {
+                    self.internetUnavailable()
+                } else {
+                    self.internetAvailable()
+                }
             }
-
         }
     }
     

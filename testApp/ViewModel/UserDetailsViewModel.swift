@@ -10,7 +10,7 @@ import Foundation
 class UserDetailsViewModel {
     
     var username: String?
-    var notesData = ""
+    var previousNotes = ""
     private(set) var userDetails: UserDetails?
     
     func fetchUserData(success: @escaping () -> Void,

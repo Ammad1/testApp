@@ -9,72 +9,63 @@ import Foundation
 
 class MainControllerViewModel {
     
-    var users = [User1]()
+    private var users = [User]()
+    private(set)var filteredUsers = [User]()
     
-    func fetchUsers(success: @escaping (_ isPaginationCompleted: Bool) -> Void,
-                    failure: @escaping (_ code: Int?, _ message: String?) -> ()) {
+    func resetData() {
+        users = []
+        filteredUsers = []
+    }
+    
+    func searchUsers(withKeyword keyword: String, completion: () ->()) {
+        filteredUsers = []
+        if keyword == "" {
+            filteredUsers = users
+        } else {
+            
+            filteredUsers = users.filter({$0.login?.range(of: keyword, options: .caseInsensitive) != nil})
+        }
+        completion()
+    }
+    
+    func fetchUsers( completion: @escaping (Result<Bool, CustomError>) -> Void) {
+                    
         let lastUserId = users.last?.id ?? 0
         guard let url = URL(string: AppConstants.Url.users + "?since=\(lastUserId)&per_page=10") else {
-            failure(nil, "invalid URL")
+            
+            completion(.failure(CustomError(code: nil, message: "invalid URL")))
             return
         }
        
         let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             
             if let error = error {
-                failure(nil, "Error: \(error.localizedDescription)")
+                completion(.failure(CustomError(code: nil, message: "Error: \(error.localizedDescription)")))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                failure(nil, "Error with the response, unexpected status code: \(response?.description ?? "")")
-                return
-            }
+                      
+                      completion(.failure(CustomError(code: nil, message: "Error with the response, unexpected status code: \(response?.description ?? "")")))
+                      return
+                  }
             
-            guard let data = data, let users = try? JSONDecoder().decode([User1].self, from: data) else {
-                failure(nil, "unable to parse data")
+            guard let data = data, let users = try? JSONDecoder().decode([User].self, from: data) else {
+                completion(.failure(CustomError(code: nil, message: "Unable to parse data")))
                 return
             }
             self.users.append(contentsOf: users)
-            success((users.count == 0))
+            self.filteredUsers.append(contentsOf: users)
+            CoreDataManager.shared.saveUsers(users)
+            let isPaginationCompleted = (users.count == 0)
+            completion(.success(isPaginationCompleted))
         })
         task.resume()
     }
     
-    func searchUser(withUsername username: String, success: @escaping (_ isPaginationCompleted: Bool) -> Void,
-                    failure: @escaping (_ code: Int?, _ message: String?) -> ()) {
-        
-        guard !username.isEmpty, let url = URL(string: AppConstants.Url.users + "/search/users?q=\(username)&per_page=10") else {
-            failure(nil, "invalid URL")
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-            
-            if let error = error {
-                failure(nil, "Error: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                failure(nil, "Error with the response, unexpected status code: \(response?.description ?? "")")
-                return
-            }
-            
-            guard let data = data, let users = try? JSONDecoder().decode(SearchUsers.self, from: data) else {
-                failure(nil, "unable to parse data")
-                return
-            }
-            self.users.append(contentsOf: users.items)
-            success((users.items.count == 0))
-        })
-        task.resume()
-    }
-    
-    func updateUserNotes(forUserId id: Int?, noteData: String) {
-        guard let index = users.firstIndex(where: {$0.id == id}) else { return }
-        users[index].notes = noteData
+    func loadOfflineData() {
+        users = CoreDataManager.shared.retrieveAllUsers()
+        filteredUsers = CoreDataManager.shared.retrieveAllUsers()
     }
 }

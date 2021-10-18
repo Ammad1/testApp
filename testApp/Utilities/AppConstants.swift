@@ -24,9 +24,11 @@ class AppConstants {
         static let addNotesPlaceholder = "Add Notes Here..."
         static let success = "Success"
         static let notesUpdated = "Notes Updated Successfully"
+        static let notesSaved = "Notes Saved Successfully"
+        static let notesDeleted = "Notes Deleted Successfully"
         static let searchUsernamePlaceholder = "Type username to search..."
-        static let internetUnavailable = "Internet not available."
-        static let checkConnection = "Check you connection and try again..!!"
+        static let internetUnavailable = "Internet not available.\nLoading Previously fetched data."
+        static let internetAvailable = "Internet available.\nNow you can load new data."
     }
     
     struct Url {

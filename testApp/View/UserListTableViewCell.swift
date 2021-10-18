@@ -72,7 +72,7 @@ class UserListTableViewCell: UITableViewCell {
         ])
     }
     
-    func setData(_ user: User1, isInvertedImage: Bool) {
+    func setData(_ user: User, isInvertedImage: Bool) {
         usernameLabel.text = user.login ?? AppConstants.Message.unavailable
         noteIcon.isHidden = user.notes.isEmpty
         
@@ -85,7 +85,7 @@ class UserListTableViewCell: UITableViewCell {
             self.userImageView.image = cacheImage
 
         } else {
-            if let url = URL(string: user.avatar_url ?? "") {
+            if let url = URL(string: user.avatarUrl ?? "") {
                 DispatchQueue.global().async {
                     var image: UIImage!
                     if let data = try? Data(contentsOf: url) {
@@ -98,7 +98,7 @@ class UserListTableViewCell: UITableViewCell {
                             self.cache.setObject(image, forKey: NSNumber(value: id))
                         }
                         var updatedImage = image
-                        if isInvertedImage {
+                        if isInvertedImage, image != UIImage.noUserImage {
                             updatedImage = image.inverseImage()
                         }
                         self.userImageView.image = updatedImage

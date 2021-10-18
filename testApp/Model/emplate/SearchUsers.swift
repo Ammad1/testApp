@@ -11,7 +11,7 @@ struct SearchUsers : Codable {
     
     let totalCount: Int?
     let incompleteResults: Bool?
-    var items = [User1]()
+    var items = [User]()
 
     enum CodingKeys: String, CodingKey {
 
@@ -25,6 +25,6 @@ struct SearchUsers : Codable {
 
         totalCount = try values.decodeIfPresent(Int.self, forKey: .totalCount)
         incompleteResults = try values.decodeIfPresent(Bool.self, forKey: .incompleteResults)
-        items = try values.decodeIfPresent([User1].self, forKey: .items) ?? []
+        items = try values.decodeIfPresent([User].self, forKey: .items) ?? []
     }
 }

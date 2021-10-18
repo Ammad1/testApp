@@ -3,12 +3,40 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "UserDetailsViewController.viewDidLoad():UserDetailsViewController.swift">
+         contextName = "closure #1 in closure #1 in MainViewController.fetchUsers(isFirstTime:completion:):MainViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CoreDataManager.updateNote(forId:_:):CoreDataManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MainControllerViewModel.searchUsers(withKeyword:):MainControllerViewModel.swift">
          <PersistentStrings>
             <PersistentString
-               value = "viewModel.notesData">
+               value = "filteredUsers">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MainControllerViewModel.searchUsers(withKeyword:completion:):MainControllerViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "users">
+            </PersistentString>
+            <PersistentString
+               value = "filteredUsers">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ReachabilityManager.networkStatusChanged(_:):ReachabilityManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "reachability?.connection">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MainViewController.viewDidLoad():MainViewController.swift">
       </ContextState>
       <ContextState
          contextName = "MainViewController.tableView(_:didSelectRowAt:):MainViewController.swift">
@@ -19,10 +47,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ReachabilityManager.networkStatusChanged(_:):ReachabilityManager.swift">
+         contextName = "UserDetailsViewController.viewDidLoad():UserDetailsViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "reachability?.connection">
+               value = "viewModel.notesData">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

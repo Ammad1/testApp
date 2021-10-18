@@ -17,7 +17,7 @@ class UserDetailsViewController: BaseViewController {
         super.viewDidLoad()
         
         userDetailsView.textView.delegate = self
-        userDetailsView.setNotesData(viewModel.notesData)
+        userDetailsView.setNotesData(viewModel.previousNotes)
         LoaderManager.show(self.view, message: AppConstants.Message.pleaseWait)
         viewModel.fetchUserData {
             DispatchQueue.main.async {
@@ -46,9 +46,25 @@ class UserDetailsViewController: BaseViewController {
         if notes == AppConstants.Message.addNotesPlaceholder {
             notes = ""
         }
-        viewModel.notesData = notes
-        delegate?.updateNote(forUserId: viewModel.userDetails?.id, data: notes)
-        self.showAlert(title: AppConstants.Message.success, message: AppConstants.Message.notesUpdated, completion: nil)
+        var alertMessage = ""
+        if userDetailsView.textView.text == "" {
+            CoreDataManager.shared.deleteNote(forId: viewModel.userDetails?.id)
+            alertMessage = AppConstants.Message.notesDeleted
+            
+        } else if viewModel.previousNotes == "" {
+            CoreDataManager.shared.saveNotes(forId: viewModel.userDetails?.id, notes)
+            alertMessage = AppConstants.Message.notesSaved
+            
+        } else {
+            CoreDataManager.shared.updateNote(forId: viewModel.userDetails?.id, notes)
+            alertMessage = AppConstants.Message.notesUpdated
+        }
+        
+        viewModel.previousNotes = notes
+        delegate?.NotesUpdated()
+        self.view.endEditing(true)
+        userDetailsView.disableSaveButton(isSameText: true)
+        self.showAlert(title: AppConstants.Message.success, message: alertMessage, completion: nil)
     }
 }
 
@@ -77,8 +93,8 @@ extension UserDetailsViewController: UITextViewDelegate {
         if let textString = textView.text as NSString? {
             txtAfterUpdate = textString.replacingCharacters(in: range, with: text)
         }
-        let isSameText = (txtAfterUpdate == viewModel.notesData)
-        userDetailsView.updateSaveButtonState(isSameText: isSameText)
+        let isSameText = (txtAfterUpdate == viewModel.previousNotes)
+        userDetailsView.disableSaveButton(isSameText: isSameText)
         return true
     }
 }

@@ -82,7 +82,7 @@ class UserDetailsView: UIView {
     }
     
     func setNotesData(_ data: String) {
-        updateSaveButtonState(isSameText: true)
+        disableSaveButton(isSameText: true)
         if data == "" {
             textView.textColor = .placeholderText
             textView.text = AppConstants.Message.addNotesPlaceholder
@@ -92,7 +92,7 @@ class UserDetailsView: UIView {
         }
     }
     
-    func updateSaveButtonState(isSameText: Bool) {
+    func disableSaveButton(isSameText: Bool) {
         saveButton.alpha = isSameText ? 0.5 : 1.0
         saveButton.isUserInteractionEnabled = !isSameText
     }

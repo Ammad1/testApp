@@ -16,8 +16,19 @@ class MainView: UIView {
     let tableView = UITableView()
     let noDataView = UIView()
     let noDataLabel = UILabel()
+    let noInternetView = UIView()
+    let noInternetLabel = UILabel()
+    let stackView = UIStackView()
     
     func initiateView() {
+        
+        noInternetLabel.text = "Please check your internet connection"
+        noInternetLabel.textAlignment = .center
+        noInternetLabel.textColor = .white
+        noInternetLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        
+        noInternetView.backgroundColor = .red
+        noInternetView.isHidden = true
         
         noDataLabel.textColor = .label
         noDataLabel.textAlignment = .center
@@ -65,9 +76,13 @@ class MainView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         noDataView.translatesAutoresizingMaskIntoConstraints = false
         noDataLabel.translatesAutoresizingMaskIntoConstraints = false
+        noInternetView.translatesAutoresizingMaskIntoConstraints = false
+        noInternetLabel.translatesAutoresizingMaskIntoConstraints = false
         
         self.backgroundColor = .systemBackground
         self.addSubview(headerView)
+        noInternetView.addSubview(noInternetLabel)
+        self.addSubview(noInternetView)
         noDataView.addSubview(noDataLabel)
         self.addSubview(noDataView)
         self.addSubview(tableView)
@@ -98,20 +113,43 @@ class MainView: UIView {
             tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
             tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 15),
+            tableView.topAnchor.constraint(equalTo: noInternetView.bottomAnchor, constant: 15),
             
             noDataView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
             noDataView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
             noDataView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            noDataView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 15),
+            noDataView.topAnchor.constraint(equalTo: noInternetView.bottomAnchor, constant: 15),
             
             noDataLabel.leadingAnchor.constraint(equalTo: noDataView.leadingAnchor, constant: 10),
             noDataLabel.trailingAnchor.constraint(equalTo: noDataView.trailingAnchor, constant: -10),
             noDataLabel.heightAnchor.constraint(equalToConstant: 25),
             noDataLabel.centerYAnchor.constraint(equalTo: noDataView.centerYAnchor),
+            
+            noInternetView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+            noInternetView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+            noInternetView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0),
+            noInternetView.heightAnchor.constraint(equalToConstant: 50),
            
+            noInternetLabel.leadingAnchor.constraint(equalTo: noInternetView.leadingAnchor, constant: 10),
+            noInternetLabel.trailingAnchor.constraint(equalTo: noInternetView.trailingAnchor, constant: -10),
+            noInternetLabel.heightAnchor.constraint(equalToConstant: 25),
+            noInternetLabel.centerYAnchor.constraint(equalTo: noInternetView.centerYAnchor),
         ])
         
+    }
+    
+    func hideNoInternetView(_ isHide: Bool) {
+        let height = isHide ? 0.0 : 50.0
+        let width = self.noInternetView.frame.width
+        UIView.animate(withDuration: 3, animations: {
+            self.noInternetView.frame.size = CGSize(width: width, height: height)
+        })
+        self.noInternetView.isHidden = isHide
+        let topAnchorView = isHide ? headerView : noInternetView
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: topAnchorView.bottomAnchor, constant: 15),
+            noDataView.topAnchor.constraint(equalTo: topAnchorView.bottomAnchor, constant: 15),
+        ])
     }
     
     func updateViews(isDataAvailable isAvailable: Bool) {

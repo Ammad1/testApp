@@ -12,6 +12,7 @@
 		259E0EE9271AE5C4002BA512 /* UserDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* UserDataModel.xcdatamodeld */; };
 		259E0EEC271AE60A002BA512 /* UserDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* UserDataModel.xcdatamodeld */; };
 		259E0EED271AE60B002BA512 /* UserDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* UserDataModel.xcdatamodeld */; };
+		259E0EF1271D8905002BA512 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E0EF0271D8905002BA512 /* CustomError.swift */; };
 		25D2D5A4270633CB00419E4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5A3270633CB00419E4B /* AppDelegate.swift */; };
 		25D2D5A6270633CB00419E4B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5A5270633CB00419E4B /* SceneDelegate.swift */; };
 		25D2D5AB270633CB00419E4B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25D2D5A9270633CB00419E4B /* Main.storyboard */; };
@@ -59,6 +60,7 @@
 		06CBCA9E14DE78AA60FD465E /* Pods-testApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testApp.release.xcconfig"; path = "Target Support Files/Pods-testApp/Pods-testApp.release.xcconfig"; sourceTree = "<group>"; };
 		2539C069270A336500F0FEED /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		25582864270F784300EC9CEB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		259E0EF0271D8905002BA512 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		25D2D5A0270633CB00419E4B /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25D2D5A3270633CB00419E4B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25D2D5A5270633CB00419E4B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				25E35A7A2717807200FE1469 /* SearchUsers.swift */,
 				25D2D5DD2707A62300419E4B /* User.swift */,
 				25D2D5E127091E8400419E4B /* UserDetails.swift */,
+				259E0EF0271D8905002BA512 /* CustomError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				25E35A7B2717807200FE1469 /* SearchUsers.swift in Sources */,
 				25D2D5E927091F1100419E4B /* AppConstants.swift in Sources */,
 				25DEA1352714CF3E006D9F47 /* CoreDataManager.swift in Sources */,
+				259E0EF1271D8905002BA512 /* CustomError.swift in Sources */,
 				25D2D5E227091E8400419E4B /* UserDetails.swift in Sources */,
 				25D2D5E02708FC5E00419E4B /* MainControllerViewModel.swift in Sources */,
 				25D2D5D8270636D400419E4B /* BaseViewController.swift in Sources */,

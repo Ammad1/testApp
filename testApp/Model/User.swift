@@ -6,70 +6,118 @@
 //
 
 import Foundation
+import CoreData
 
-struct User1 : Codable {
-    let login : String?
-    let id : Int?
-    let node_id : String?
-    let avatar_url : String?
-    let gravatar_id : String?
-    let url : String?
-    let html_url : String?
-    let followers_url : String?
-    let following_url : String?
-    let gists_url : String?
-    let starred_url : String?
-    let subscriptions_url : String?
-    let organizations_url : String?
-    let repos_url : String?
-    let events_url : String?
-    let received_events_url : String?
-    let type : String?
-    let site_admin : Bool?
-    var notes: String = ""
+struct User : Codable {
+    var login : String?
+    var id : Int?
+    var nodeId : String?
+    var avatarUrl : String?
+    var avatarId : String?
+    var url : String?
+    var htmlUrl : String?
+    var followersUrl : String?
+    var followingUrl : String?
+    var gistsUrl : String?
+    var starredUrl : String?
+    var subscriptionsUrl : String?
+    var organizationsUrl : String?
+    var reposUrl : String?
+    var eventsUrl : String?
+    var receivedEventsUrl : String?
+    var type : String?
+    var siteAdmin : Bool?
+    var notes: String {
+        get {
+            return CoreDataManager.shared.retrieveNotes(forId: id)
+        }
+    }
 
     enum CodingKeys: String, CodingKey {
 
         case login = "login"
         case id = "id"
-        case node_id = "node_id"
-        case avatar_url = "avatar_url"
-        case gravatar_id = "gravatar_id"
+        case nodeId = "node_id"
+        case avatarUrl = "avatar_url"
+        case avatarId = "gravatar_id"
         case url = "url"
-        case html_url = "html_url"
-        case followers_url = "followers_url"
-        case following_url = "following_url"
-        case gists_url = "gists_url"
-        case starred_url = "starred_url"
-        case subscriptions_url = "subscriptions_url"
-        case organizations_url = "organizations_url"
-        case repos_url = "repos_url"
-        case events_url = "events_url"
-        case received_events_url = "received_events_url"
+        case htmlUrl = "html_url"
+        case followersUrl = "followers_url"
+        case followingUrl = "following_url"
+        case gistsUrl = "gists_url"
+        case starredUrl = "starred_url"
+        case subscriptionsUrl = "subscriptions_url"
+        case organizationsUrl = "organizations_url"
+        case reposUrl = "repos_url"
+        case eventsUrl = "events_url"
+        case receivedEventsUrl = "received_events_url"
         case type = "type"
-        case site_admin = "site_admin"
+        case siteAdmin = "site_admin"
     }
-
+    
+    init() {
+        
+    }
+//    init(userManagedObject: NSManagedObject) {
+//        login = userManagedObject.value(forKey: "login")
+//        id = userManagedObject.value(forKey: "id")
+//        nodeId = userManagedObject.value(forKey: "nodeId")
+//        avatarUrl = userManagedObject.value(forKey: "avatarUrl")
+//        avatarId = userManagedObject.value(forKey: "gravatarId")
+//        url = userManagedObject.value(forKey: "url")
+//        htmlUrl =          userManagedObject.value(forKey: "htmlUrl")
+//        followersUrl =     userManagedObject.value(forKey: "followersUrl")
+//        followingUrl =     userManagedObject.value(forKey: "followingUrl")
+//        gistsUrl =         userManagedObject.value(forKey: "gistsUrl")
+//        starredUrl =       userManagedObject.value(forKey: "starredUrl")
+//        subscriptionsUrl = userManagedObject.value(forKey: "subscriptionsUrl")
+//        organizationsUrl = userManagedObject.value(forKey: "organizationsUrl")
+//        reposUrl =         userManagedObject.value(forKey: "reposUrl")
+//        eventsUrl =        userManagedObject.value(forKey: "eventsUrl")
+//        receivedEventsUrl =userManagedObject.value(forKey: "receivedEventsUrl")
+//        type =             userManagedObject.value(forKey: "type")
+//        siteAdmin =        userManagedObject.value(forKey: "siteAdmin")
+//
+//        login =             user.login
+//        id =                user.id
+//        nodeId =            user.nodeId
+//        avatarUrl =         user.avatarUrl
+//        avatarId =          user.avatarId
+//        url =               user.url
+//        htmlUrl =           user.htmlUrl
+//        followersUrl =      user.followersUrl
+//        followingUrl =      user.followingUrl
+//        gistsUrl =          user.gistsUrl
+//        starredUrl =        user.starredUrl
+//        subscriptionsUrl =  user.subscriptionsUrl
+//        organizationsUrl =  user.organizationsUrl
+//        reposUrl =          user.reposUrl
+//        eventsUrl =         user.eventsUrl
+//        receivedEventsUrl = user.receivedEventsUrl
+//        type =              user.type
+//        siteAdmin =         user.siteAdmin
+//        notes = ""
+//    }
+    
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         login = try values.decodeIfPresent(String.self, forKey: .login)
         id = try values.decodeIfPresent(Int.self, forKey: .id)
-        node_id = try values.decodeIfPresent(String.self, forKey: .node_id)
-        avatar_url = try values.decodeIfPresent(String.self, forKey: .avatar_url)
-        gravatar_id = try values.decodeIfPresent(String.self, forKey: .gravatar_id)
+        nodeId = try values.decodeIfPresent(String.self, forKey: .nodeId)
+        avatarUrl = try values.decodeIfPresent(String.self, forKey: .avatarUrl)
+        avatarId = try values.decodeIfPresent(String.self, forKey: .avatarId)
         url = try values.decodeIfPresent(String.self, forKey: .url)
-        html_url = try values.decodeIfPresent(String.self, forKey: .html_url)
-        followers_url = try values.decodeIfPresent(String.self, forKey: .followers_url)
-        following_url = try values.decodeIfPresent(String.self, forKey: .following_url)
-        gists_url = try values.decodeIfPresent(String.self, forKey: .gists_url)
-        starred_url = try values.decodeIfPresent(String.self, forKey: .starred_url)
-        subscriptions_url = try values.decodeIfPresent(String.self, forKey: .subscriptions_url)
-        organizations_url = try values.decodeIfPresent(String.self, forKey: .organizations_url)
-        repos_url = try values.decodeIfPresent(String.self, forKey: .repos_url)
-        events_url = try values.decodeIfPresent(String.self, forKey: .events_url)
-        received_events_url = try values.decodeIfPresent(String.self, forKey: .received_events_url)
+        htmlUrl = try values.decodeIfPresent(String.self, forKey: .htmlUrl)
+        followersUrl = try values.decodeIfPresent(String.self, forKey: .followersUrl)
+        followingUrl = try values.decodeIfPresent(String.self, forKey: .followingUrl)
+        gistsUrl = try values.decodeIfPresent(String.self, forKey: .gistsUrl)
+        starredUrl = try values.decodeIfPresent(String.self, forKey: .starredUrl)
+        subscriptionsUrl = try values.decodeIfPresent(String.self, forKey: .subscriptionsUrl)
+        organizationsUrl = try values.decodeIfPresent(String.self, forKey: .organizationsUrl)
+        reposUrl = try values.decodeIfPresent(String.self, forKey: .reposUrl)
+        eventsUrl = try values.decodeIfPresent(String.self, forKey: .eventsUrl)
+        receivedEventsUrl = try values.decodeIfPresent(String.self, forKey: .receivedEventsUrl)
         type = try values.decodeIfPresent(String.self, forKey: .type)
-        site_admin = try values.decodeIfPresent(Bool.self, forKey: .site_admin)
-        notes = ""
+        siteAdmin = try values.decodeIfPresent(Bool.self, forKey: .siteAdmin)
     }
 }
