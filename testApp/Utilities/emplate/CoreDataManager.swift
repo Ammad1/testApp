@@ -8,13 +8,16 @@
 import Foundation
 import CoreData
 
+//MARK: - Enums
 enum EntityName: String {
     case User
     case Notes
+    case ProfileViewed
 }
 
 class CoreDataManager {
     
+    //MARK: - Properties
     static let shared = CoreDataManager()
     
     var context: NSManagedObjectContext {
@@ -22,7 +25,7 @@ class CoreDataManager {
     }
     
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "UserDataModel")
+        let container = NSPersistentContainer(name: "testApp")
         container.loadPersistentStores { description, error in
             if let error = error {
                 fatalError("Unable to load persistent stores: \(error)")
@@ -30,6 +33,27 @@ class CoreDataManager {
         }
         return container
     }()
+    
+    //MARK: - Initializers
+    private init() {}
+    
+    //MARK: - Helper Methods
+    private func saveContext () {
+        DispatchQueue.main.async {
+            if self.context.hasChanges {
+                do {
+                    try self.context.save()
+                } catch {
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                }
+            }
+        }
+    }
+}
+
+//MARK: - User Entity Methods
+extension CoreDataManager {
     
     func saveUser(_ userData: User) {
         DispatchQueue.main.async {
@@ -109,6 +133,25 @@ class CoreDataManager {
         return users
     }
     
+    func deleteAllUserData() {
+        DispatchQueue.main.async {
+            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName:EntityName.User.rawValue)
+            let request = NSBatchDeleteRequest(fetchRequest: fetch)
+            
+            do {
+                try self.context.execute(request)
+                
+            } catch {
+                
+                print("Failed")
+            }
+        }
+    }
+}
+
+//MARK: - Notes Entity Methods
+extension CoreDataManager {
+    
     func saveNotes(forId id: Int?, _ data: String) {
         guard let userId = id else { return }
         
@@ -170,7 +213,6 @@ class CoreDataManager {
         }
     }
     
-    
     func retrieveNotes(forId id: Int?) -> String {
         var noteValue = ""
         guard let userId = id else { return noteValue }
@@ -195,31 +237,44 @@ class CoreDataManager {
         return noteValue
         
     }
+}
+
+//MARK: - Profile Entity Methods
+extension CoreDataManager {
     
-    func deleteAllData() {
-        DispatchQueue.main.async {
-            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName:EntityName.User.rawValue)
-            let request = NSBatchDeleteRequest(fetchRequest: fetch)
-            
-            do {
-                try self.context.execute(request)
-                
-            } catch {
-                
-                print("Failed")
+    func profileViewed(withUserId id: Int?, completion: @escaping ()->()) {
+        guard let userId = id else {
+            return
+        }
+        
+        isProfileViewed(withUserId: id) { isViewed in
+            if isViewed == false {
+                DispatchQueue.main.async {
+                    let profileEntity = NSEntityDescription.entity(forEntityName: EntityName.ProfileViewed.rawValue, in: self.context)!
+                    let profile = NSManagedObject(entity: profileEntity, insertInto: self.context)
+                    profile.setValue(userId, forKey: "id")
+                    
+                    self.saveContext()
+                    completion()
+                }
             }
         }
     }
     
-    private func saveContext () {
+    func isProfileViewed(withUserId id: Int?, completion: @escaping (_ isViewed: Bool)->()) {
+        guard let userId = id else { return }
         DispatchQueue.main.async {
-            if self.context.hasChanges {
-                do {
-                    try self.context.save()
-                } catch {
-                    let nserror = error as NSError
-                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                }
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.ProfileViewed.rawValue)
+            
+            fetchRequest.predicate = NSPredicate(format: "id = %d", userId)
+            
+            do {
+                let result = try self.context.fetch(fetchRequest) as? [NSManagedObject]
+                let isViewed = (result?.count ?? 0) > 0
+                completion(isViewed)
+                
+            } catch {
+                print("Failed")
             }
         }
     }

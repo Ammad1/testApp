@@ -8,14 +8,15 @@
 import UIKit
 
 class UserListTableViewCell: UITableViewCell {
-
-    private let cache = NSCache<NSNumber, UIImage>()
+    
+    //MARK: - Properties
     var userImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     var dataOuterView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
     var noteIcon = UIImageView()
     var usernameLabel = UILabel()
     var stackView = UIStackView()
     
+    //MARK: Helper Methods
     func configure(id: Int?) {
         self.selectionStyle = .none
         self.backgroundColor = .systemBackground
@@ -60,7 +61,7 @@ class UserListTableViewCell: UITableViewCell {
             userImageView.bottomAnchor.constraint(equalTo: dataOuterView.bottomAnchor, constant: -10),
             userImageView.heightAnchor.constraint(equalToConstant: 50),
             userImageView.widthAnchor.constraint(equalToConstant: 50),
-        
+            
             stackView.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: dataOuterView.trailingAnchor, constant: -10),
             stackView.centerYAnchor.constraint(equalTo: dataOuterView.centerYAnchor),
@@ -68,7 +69,7 @@ class UserListTableViewCell: UITableViewCell {
             
             noteIcon.heightAnchor.constraint(equalToConstant: 20),
             noteIcon.widthAnchor.constraint(equalToConstant: 20),
-
+            
         ])
     }
     
@@ -76,37 +77,61 @@ class UserListTableViewCell: UITableViewCell {
         usernameLabel.text = user.login ?? AppConstants.Message.unavailable
         noteIcon.isHidden = user.notes.isEmpty
         
-        if let id = user.id, var cacheImage = self.cache.object(forKey: NSNumber(value: id)),
-           cacheImage != UIImage.noUserImage {
-
-            if isInvertedImage {
-                cacheImage = cacheImage.inverseImage()
+        CoreDataManager.shared.isProfileViewed(withUserId: user.id) { isViewed in
+            if isViewed {
+                self.dataOuterView.backgroundColor = .lightText
             }
-            self.userImageView.image = cacheImage
-
-        } else {
-            if let url = URL(string: user.avatarUrl ?? "") {
-                DispatchQueue.global().async {
-                    var image: UIImage!
-                    if let data = try? Data(contentsOf: url) {
-                        image = UIImage(data: data)
-                    } else {
-                        image = .noUserImage
-                    }
+        }
+        
+        guard let userId = user.id else {
+            userImageView.image = .noUserImage
+            return
+        }
+        if ImageCacheManager.shared.isImageAlreadySaved(imageName: String(userId)) {
+            guard let image = ImageCacheManager.shared.loadImageFromDiskWith(fileName: String(userId)) else {
+                self.userImageView.image = .noUserImage
+                return
+            }
+            
+            if isInvertedImage {
+                image.inverseImage { inversedImage in
                     DispatchQueue.main.async {
-                        if let id = user.id {
-                            self.cache.setObject(image, forKey: NSNumber(value: id))
-                        }
-                        var updatedImage = image
-                        if isInvertedImage, image != UIImage.noUserImage {
-                            updatedImage = image.inverseImage()
-                        }
-                        self.userImageView.image = updatedImage
-                        
+                        self.userImageView.image = inversedImage
                     }
                 }
             } else {
+                self.userImageView.image = image
+            }
+            
+            
+        } else {
+            guard let urlString = user.avatarUrl, let imageUrl = URL(string: urlString) else {
                 userImageView.image = .noUserImage
+                return
+            }
+            DispatchQueue.global().async {
+                
+                guard let data = try? Data(contentsOf: imageUrl), let image = UIImage(data: data) else {
+                    DispatchQueue.main.async {
+                        self.userImageView.image = .noUserImage
+                    }
+                    return
+                }
+                
+                let userImage = image
+                
+                DispatchQueue.main.async {
+                    ImageCacheManager.shared.saveImage(imageName: String(userId), image: userImage)
+                    if isInvertedImage{
+                        userImage.inverseImage { inversedImage in
+                            DispatchQueue.main.async {
+                                self.userImageView.image = inversedImage
+                            }
+                        }
+                    } else {
+                        self.userImageView.image = userImage
+                    }
+                }
             }
         }
     }

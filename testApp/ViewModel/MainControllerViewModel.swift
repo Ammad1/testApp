@@ -9,9 +9,11 @@ import Foundation
 
 class MainControllerViewModel {
     
+    //MARK: - Properties
     private var users = [User]()
     private(set)var filteredUsers = [User]()
     
+    //MARK: - Helper Methods
     func resetData() {
         users = []
         filteredUsers = []

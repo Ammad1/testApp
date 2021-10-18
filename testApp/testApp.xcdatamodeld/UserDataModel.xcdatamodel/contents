@@ -4,6 +4,9 @@
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="note" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="ProfileViewed" representedClassName="ProfileViewed" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <entity name="User" representedClassName=".User" syncable="YES">
         <attribute name="avatarId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
@@ -28,5 +31,6 @@
     <elements>
         <element name="User" positionX="-63" positionY="-18" width="128" height="314"/>
         <element name="Notes" positionX="-54" positionY="135" width="128" height="59"/>
+        <element name="ProfileViewed" positionX="-36" positionY="144" width="128" height="44"/>
     </elements>
 </model>

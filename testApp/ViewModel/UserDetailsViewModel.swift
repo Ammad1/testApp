@@ -8,11 +8,13 @@
 import Foundation
 
 class UserDetailsViewModel {
-    
+
+    //MARK: - Properties
     var username: String?
     var previousNotes = ""
     private(set) var userDetails: UserDetails?
     
+    //MARK: - Helper Methods
     func fetchUserData(success: @escaping () -> Void,
                        failure: @escaping (_ code: Int?, _ message: String?) -> ()) {
         

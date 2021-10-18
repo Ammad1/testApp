@@ -28,6 +28,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "UIImage.inverseImage():UIImageExtension.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "UIImage(ciImage: result)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ReachabilityManager.networkStatusChanged(_:):ReachabilityManager.swift">
          <PersistentStrings>
             <PersistentString

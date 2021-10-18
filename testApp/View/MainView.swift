@@ -9,6 +9,7 @@ import UIKit
 
 class MainView: UIView {
 
+    //MARK: Properties
     let searchTextField = UITextField()
     let searchIconImage = UIImageView()
     let searchOuterView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
@@ -20,6 +21,7 @@ class MainView: UIView {
     let noInternetLabel = UILabel()
     let stackView = UIStackView()
     
+    //MARK: - Helper Methods
     func initiateView() {
         
         noInternetLabel.text = "Please check your internet connection"
@@ -82,11 +84,11 @@ class MainView: UIView {
         self.backgroundColor = .systemBackground
         self.addSubview(headerView)
         noInternetView.addSubview(noInternetLabel)
-        self.addSubview(noInternetView)
         noDataView.addSubview(noDataLabel)
         self.addSubview(noDataView)
         self.addSubview(tableView)
-        
+        self.addSubview(noInternetView)
+
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
             headerView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
@@ -139,17 +141,7 @@ class MainView: UIView {
     }
     
     func hideNoInternetView(_ isHide: Bool) {
-        let height = isHide ? 0.0 : 50.0
-        let width = self.noInternetView.frame.width
-        UIView.animate(withDuration: 3, animations: {
-            self.noInternetView.frame.size = CGSize(width: width, height: height)
-        })
         self.noInternetView.isHidden = isHide
-        let topAnchorView = isHide ? headerView : noInternetView
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: topAnchorView.bottomAnchor, constant: 15),
-            noDataView.topAnchor.constraint(equalTo: topAnchorView.bottomAnchor, constant: 15),
-        ])
     }
     
     func updateViews(isDataAvailable isAvailable: Bool) {

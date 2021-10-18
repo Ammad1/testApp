@@ -10,15 +10,14 @@ import Network
 
 class BaseViewController: UIViewController {
 
-    // MARK: Instance Variables
+    // MARK: - Properties
     private var currentModalPresentationStyle: UIModalPresentationStyle = .fullScreen
-    let monitor = NWPathMonitor()
+    private let monitor = NWPathMonitor()
     
     var isInternetAvailable: Bool {
         return monitor.currentPath.status != .unsatisfied
     }
     
-    // MARK: Overrided Properties
     override var modalPresentationStyle: UIModalPresentationStyle {
         get {
             return currentModalPresentationStyle
@@ -28,14 +27,26 @@ class BaseViewController: UIViewController {
         }
     }
     
+    @available(iOS 13.0, *)
+    override var overrideUserInterfaceStyle: UIUserInterfaceStyle {
+        get {
+            return .light
+        }
+        set {
+            super.overrideUserInterfaceStyle = newValue
+        }
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
     }
     
+    //MARK: - Initializers
     deinit {
         monitor.cancel()
     }
     
+    //MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,6 +64,7 @@ class BaseViewController: UIViewController {
         }
     }
     
+    //MARK: - Helper Methods
     func internetAvailable() {
         print("Internet Available")
     }
@@ -69,16 +81,6 @@ class BaseViewController: UIViewController {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alertController.addAction(okAction)
             self.present(alertController, animated: true, completion: nil)
-        }
-    }
-    
-    @available(iOS 13.0, *)
-    override var overrideUserInterfaceStyle: UIUserInterfaceStyle {
-        get {
-            return .light
-        }
-        set {
-            super.overrideUserInterfaceStyle = newValue
         }
     }
 }

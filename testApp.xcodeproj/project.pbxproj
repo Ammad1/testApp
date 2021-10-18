@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		2539C06A270A336500F0FEED /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2539C069270A336500F0FEED /* NotificationExtension.swift */; };
 		25582865270F784300EC9CEB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25582864270F784300EC9CEB /* MainView.swift */; };
-		259E0EE9271AE5C4002BA512 /* UserDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* UserDataModel.xcdatamodeld */; };
-		259E0EEC271AE60A002BA512 /* UserDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* UserDataModel.xcdatamodeld */; };
-		259E0EED271AE60B002BA512 /* UserDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* UserDataModel.xcdatamodeld */; };
+		259E0EEC271AE60A002BA512 /* testApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* testApp.xcdatamodeld */; };
+		259E0EED271AE60B002BA512 /* testApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* testApp.xcdatamodeld */; };
 		259E0EF1271D8905002BA512 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E0EF0271D8905002BA512 /* CustomError.swift */; };
+		259E0EF3271DE534002BA512 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E0EF2271DE534002BA512 /* ImageCacheManager.swift */; };
 		25D2D5A4270633CB00419E4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5A3270633CB00419E4B /* AppDelegate.swift */; };
 		25D2D5A6270633CB00419E4B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5A5270633CB00419E4B /* SceneDelegate.swift */; };
 		25D2D5AB270633CB00419E4B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25D2D5A9270633CB00419E4B /* Main.storyboard */; };
@@ -34,6 +34,7 @@
 		25D2D5F3270A285100419E4B /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D2D5F2270A285100419E4B /* UIImageExtension.swift */; };
 		25DEA1352714CF3E006D9F47 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1342714CF3E006D9F47 /* CoreDataManager.swift */; };
 		25E35A7B2717807200FE1469 /* SearchUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E35A7A2717807200FE1469 /* SearchUsers.swift */; };
+		25EB25C6271E33C70065E862 /* testApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* testApp.xcdatamodeld */; };
 		4F7D7182AF84767B14043761 /* Pods_testApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31AD117BA4A70C2F714001FB /* Pods_testApp.framework */; };
 		636AB95B82BCA59D9FC5E232 /* Pods_testApp_testAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF739CC2E56E5117D41E91 /* Pods_testApp_testAppUITests.framework */; };
 		FA6BC38282D295365EF6CF2B /* Pods_testAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79C4475B740DB87980BA95F4 /* Pods_testAppTests.framework */; };
@@ -61,6 +62,7 @@
 		2539C069270A336500F0FEED /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		25582864270F784300EC9CEB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		259E0EF0271D8905002BA512 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		259E0EF2271DE534002BA512 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		25D2D5A0270633CB00419E4B /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25D2D5A3270633CB00419E4B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25D2D5A5270633CB00419E4B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -163,7 +165,7 @@
 				25D2D5AC270633CD00419E4B /* Assets.xcassets */,
 				25D2D5AE270633CD00419E4B /* LaunchScreen.storyboard */,
 				25D2D5B1270633CD00419E4B /* Info.plist */,
-				25DEA1362714D0CD006D9F47 /* UserDataModel.xcdatamodeld */,
+				25DEA1362714D0CD006D9F47 /* testApp.xcdatamodeld */,
 			);
 			path = testApp;
 			sourceTree = "<group>";
@@ -234,6 +236,7 @@
 				25D2D5F02709D61500419E4B /* LoaderManager.swift */,
 				25D2D5F2270A285100419E4B /* UIImageExtension.swift */,
 				2539C069270A336500F0FEED /* NotificationExtension.swift */,
+				259E0EF2271DE534002BA512 /* ImageCacheManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				25582865270F784300EC9CEB /* MainView.swift in Sources */,
 				25E35A7B2717807200FE1469 /* SearchUsers.swift in Sources */,
 				25D2D5E927091F1100419E4B /* AppConstants.swift in Sources */,
+				25EB25C6271E33C70065E862 /* testApp.xcdatamodeld in Sources */,
 				25DEA1352714CF3E006D9F47 /* CoreDataManager.swift in Sources */,
 				259E0EF1271D8905002BA512 /* CustomError.swift in Sources */,
 				25D2D5E227091E8400419E4B /* UserDetails.swift in Sources */,
@@ -510,8 +514,8 @@
 				25D2D5D8270636D400419E4B /* BaseViewController.swift in Sources */,
 				25D2D5DE2707A62300419E4B /* User.swift in Sources */,
 				25D2D5A4270633CB00419E4B /* AppDelegate.swift in Sources */,
+				259E0EF3271DE534002BA512 /* ImageCacheManager.swift in Sources */,
 				25D2D5ED270928F700419E4B /* UserDetailsView.swift in Sources */,
-				259E0EE9271AE5C4002BA512 /* UserDataModel.xcdatamodeld in Sources */,
 				25D2D5F12709D61500419E4B /* LoaderManager.swift in Sources */,
 				25D2D5E627091EE500419E4B /* UserDetailsViewModel.swift in Sources */,
 				2539C06A270A336500F0FEED /* NotificationExtension.swift in Sources */,
@@ -526,7 +530,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				259E0EEC271AE60A002BA512 /* UserDataModel.xcdatamodeld in Sources */,
+				259E0EEC271AE60A002BA512 /* testApp.xcdatamodeld in Sources */,
 				25D2D5BB270633CE00419E4B /* testAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,7 +539,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				259E0EED271AE60B002BA512 /* UserDataModel.xcdatamodeld in Sources */,
+				259E0EED271AE60B002BA512 /* testApp.xcdatamodeld in Sources */,
 				25D2D5C6270633CE00419E4B /* testAppUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -857,13 +861,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		25DEA1362714D0CD006D9F47 /* UserDataModel.xcdatamodeld */ = {
+		25DEA1362714D0CD006D9F47 /* testApp.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				25DEA1372714D0CD006D9F47 /* UserDataModel.xcdatamodel */,
 			);
 			currentVersion = 25DEA1372714D0CD006D9F47 /* UserDataModel.xcdatamodel */;
-			path = UserDataModel.xcdatamodeld;
+			path = testApp.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

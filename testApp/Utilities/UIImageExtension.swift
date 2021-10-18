@@ -8,7 +8,8 @@
 import UIKit
 
 extension UIImage {
-    
+
+    //MARK: - Properties
     static var noUserImage: UIImage? {
         return UIImage(named: "no_user_image")
     }
@@ -21,6 +22,7 @@ extension UIImage {
         return UIImage(systemName: "note.text")
     }
     
+    //MARK: - Helper Methods
     func inverseImage() -> UIImage {
         
         guard let cgImage = self.cgImage else { return self }
@@ -29,5 +31,10 @@ extension UIImage {
         filter.setValue(coreImage, forKey: kCIInputImageKey)
         guard let result = filter.value(forKey: kCIOutputImageKey) as? UIKit.CIImage else { return self }
         return UIImage(ciImage: result)
+    }
+    
+    func inverseImage(completion: @escaping (UIImage)->()) {
+        
+        completion(inverseImage())
     }
 }

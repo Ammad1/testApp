@@ -9,6 +9,7 @@ import UIKit
 
 class UserDetailsView: UIView {
 
+    //MARK: Outlets
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var followersLabel: UILabel!
@@ -28,12 +29,14 @@ class UserDetailsView: UIView {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
     
+    //MARK: Override Methods
     override func awakeFromNib() {
         super.awakeFromNib()
         
         setupViews()
     }
     
+    //MARK: Helper Methods
     private func setupViews() {
         setData(nil)
         textView.layer.borderWidth = 1.0

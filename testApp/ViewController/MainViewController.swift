@@ -13,6 +13,7 @@ protocol NoteUpdateDelegate {
 
 class MainViewController: BaseViewController {
 
+    //MARK: - Properties
     var isPaginationCompleted = false
     var isFirstTimeLoaded = false
     var isSearching = false
@@ -21,6 +22,13 @@ class MainViewController: BaseViewController {
     
     private let viewModel = MainControllerViewModel()
     private let spinner = UIActivityIndicatorView(style: .medium)
+    
+    //MARK: - Life Cycle MEthods
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,72 +64,14 @@ class MainViewController: BaseViewController {
         }
     }
 
-//    func initiateView() {
-//        let searchTextField = UITextField()
-//        searchTextField.borderStyle = .none
-//        searchTextField.backgroundColor = .systemBackground
-//        searchTextField.text = ""
-//        searchTextField.placeholder = "Type username to search..."
-//
-//        let searchIconImage = UIImageView()
-//        searchIconImage.contentMode = .scaleAspectFit
-//        searchIconImage.tintColor = .gray
-//        searchIconImage.image = UIImage(systemName: "magnifyingglass")
-//
-//        let searchOuterView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-//        searchOuterView.layer.borderColor = UIColor.lightGray.cgColor
-//        searchOuterView.layer.borderWidth = 1.0
-//
-//        let headerView = UIView()
-//        headerView.backgroundColor = .systemBackground
-//
-//        searchOuterView.addSubview(searchIconImage)
-//        searchOuterView.addSubview(searchTextField)
-//        headerView.addSubview(searchOuterView)
-//
-//        searchOuterView.translatesAutoresizingMaskIntoConstraints = false
-//        headerView.translatesAutoresizingMaskIntoConstraints = false
-//        searchTextField.translatesAutoresizingMaskIntoConstraints = false
-//        searchIconImage.translatesAutoresizingMaskIntoConstraints = false
-//        self.view.backgroundColor = .systemBackground
-//        self.view.addSubview(headerView)
-//
-//        NSLayoutConstraint.activate([
-//            headerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
-//            headerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0),
-//            headerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0),
-//            headerView.heightAnchor.constraint(equalToConstant: 65),
-//
-//            searchOuterView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10),
-//            searchOuterView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10),
-//            searchOuterView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -10),
-//            searchOuterView.heightAnchor.constraint(equalToConstant: 40),
-//
-//            searchIconImage.bottomAnchor.constraint(equalTo: searchOuterView.bottomAnchor, constant: 0),
-//            searchIconImage.leadingAnchor.constraint(equalTo: searchOuterView.leadingAnchor, constant: 10),
-//            searchIconImage.topAnchor.constraint(equalTo: searchOuterView.topAnchor, constant: 0),
-//            searchIconImage.heightAnchor.constraint(equalToConstant: 20),
-//            searchIconImage.widthAnchor.constraint(equalToConstant: 20),
-//
-//            searchTextField.bottomAnchor.constraint(equalTo: searchOuterView.bottomAnchor, constant: 0),
-//            searchTextField.leadingAnchor.constraint(equalTo: searchIconImage.trailingAnchor, constant: 10),
-//            searchTextField.trailingAnchor.constraint(equalTo: searchOuterView.trailingAnchor, constant: 0),
-//            searchTextField.topAnchor.constraint(equalTo: searchOuterView.topAnchor, constant: 0),
-//            searchTextField.heightAnchor.constraint(equalToConstant: 35),
-//
-//        ])
-//
-//        searchOuterView.layer.cornerRadius = searchOuterView.frame.height / 2.0
-//        searchOuterView.clipsToBounds = true
-//    }
-    
+    //MARK: - Helper Methods
     private func fetchUsers(completion: (()->Void)? = nil) {
         guard isApiInProgress == false else { return }
         isApiInProgress = true
         
         if isFirstTimeLoaded == false {
             LoaderManager.show(self.view, message: AppConstants.Message.pleaseWait)
-            CoreDataManager.shared.deleteAllData()
+            CoreDataManager.shared.deleteAllUserData()
             viewModel.resetData()
         }
         viewModel.fetchUsers { result in
@@ -149,12 +99,6 @@ class MainViewController: BaseViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
     override func internetAvailable() {
         mainView.hideNoInternetView(true)
         if isFirstTimeLoaded == false {
@@ -167,6 +111,7 @@ class MainViewController: BaseViewController {
     }
 }
 
+//MARK: - UITableView Delegate Methods
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.filteredUsers.count
@@ -191,6 +136,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         guard let controller = UIStoryboard.init(name: AppConstants.Identifier.Main, bundle: nil).instantiateViewController(identifier: AppConstants.Identifier.UserDetailsViewController) as? UserDetailsViewController else {
             return
         }
+        
+        CoreDataManager.shared.profileViewed(withUserId: user.id) {
+            self.mainView.tableView.reloadData()
+        }
+        
         controller.viewModel.username = user.login
         controller.viewModel.previousNotes = user.notes
         controller.delegate = self
@@ -215,6 +165,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+//MARK: - NoteUpdateDelegate Extension
 extension MainViewController: NoteUpdateDelegate {
     
     func NotesUpdated() {
@@ -224,6 +175,7 @@ extension MainViewController: NoteUpdateDelegate {
     }
 }
 
+//MARK: - UITextFieldDelegate Methods
 extension MainViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

@@ -9,10 +9,14 @@ import UIKit
 
 class UserDetailsViewController: BaseViewController {
 
+    //MARK: - Outlets
     @IBOutlet var userDetailsView: UserDetailsView!
+    
+    //MARK: - Properties
     var delegate: NoteUpdateDelegate?
     var viewModel = UserDetailsViewModel()
     
+    //MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +44,7 @@ class UserDetailsViewController: BaseViewController {
         self.navigationItem.title = viewModel.username
     }
 
+    //MARK: - Action Methods
     @IBAction
     func savePressed(_ sender: UIButton) {
         var notes = userDetailsView.textView.text ?? ""
@@ -68,6 +73,7 @@ class UserDetailsViewController: BaseViewController {
     }
 }
 
+//MARK: - UITextViewDelegate Methods
 extension UserDetailsViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
