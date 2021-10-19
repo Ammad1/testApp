@@ -27,20 +27,6 @@ class BaseViewController: UIViewController {
         }
     }
     
-    @available(iOS 13.0, *)
-    override var overrideUserInterfaceStyle: UIUserInterfaceStyle {
-        get {
-            return .light
-        }
-        set {
-            super.overrideUserInterfaceStyle = newValue
-        }
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .darkContent
-    }
-    
     //MARK: - Initializers
     deinit {
         monitor.cancel()

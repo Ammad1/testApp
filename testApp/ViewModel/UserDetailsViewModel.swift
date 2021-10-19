@@ -11,6 +11,7 @@ class UserDetailsViewModel {
 
     //MARK: - Properties
     var username: String?
+    var userId: Int?
     var previousNotes = ""
     private(set) var userDetails: UserDetails?
     

@@ -149,6 +149,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         controller.viewModel.username = user.login
+        controller.viewModel.userId = user.id
         controller.delegate = self
         self.navigationController?.pushViewController(controller, animated: true)
     }

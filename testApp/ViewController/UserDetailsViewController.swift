@@ -21,7 +21,7 @@ class UserDetailsViewController: BaseViewController {
         super.viewDidLoad()
         
         userDetailsView.textView.delegate = self
-        
+        userDetailsView.setImage(withUserId: viewModel.userId)
         LoaderManager.show(self.view, message: AppConstants.Message.pleaseWait)
         viewModel.fetchUserData { user in
             DispatchQueue.main.async {

@@ -8,7 +8,7 @@
 import UIKit
 
 class UserDetailsView: UIView {
-
+    
     //MARK: Outlets
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var userImageView: UIImageView!
@@ -53,7 +53,7 @@ class UserDetailsView: UIView {
     }
     
     func setData(_ userDetails: UserDetails?) {
-       
+        
         followersLabel.text = String(userDetails?.followers ?? 0)
         followingLabel.text = String(userDetails?.following ?? 0)
         nameValueLabel.text = userDetails?.name ?? AppConstants.Message.unavailable
@@ -63,25 +63,25 @@ class UserDetailsView: UIView {
         emailValueLabel.text = userDetails?.email ?? AppConstants.Message.unavailable
         hireableValueLabel.text = userDetails?.hireable ?? AppConstants.Message.unavailable
         bioValueLabel.text = userDetails?.bio ?? AppConstants.Message.unavailable
-        twitterValueLabel.text = userDetails?.twitter_username ?? AppConstants.Message.unavailable
-        publicRepoValueLabel.text = String(userDetails?.public_repos ?? 0)
-        publicGistsValueLabel.text = String(userDetails?.public_gists ?? 0)
+        twitterValueLabel.text = userDetails?.twitterUsername ?? AppConstants.Message.unavailable
+        publicRepoValueLabel.text = String(userDetails?.publicRepos ?? 0)
+        publicGistsValueLabel.text = String(userDetails?.publicGists ?? 0)
         
-        if let url = URL(string: userDetails?.avatar_url ?? "") {
-            DispatchQueue.global().async {
-                var image: UIImage!
-                if let data = try? Data(contentsOf: url) {
-                    image = UIImage(data: data)
-                } else {
-                    image = .noUserImage
-                }
-                DispatchQueue.main.async {
-                    self.userImageView.image = image
-                }
-            }
-        } else {
+    }
+    
+    func setImage(withUserId id: Int?) {
+        guard let userId = id else {
             userImageView.image = .noUserImage
+            return
         }
+        
+        guard let image = ImageCacheManager.shared.loadImageFromDiskWith(fileName: String(userId)) else {
+            self.userImageView.image = .noUserImage
+            return
+        }
+        
+        self.userImageView.image = image
+        
     }
     
     func setNotesData(_ data: String) {
