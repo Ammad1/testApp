@@ -16,34 +16,34 @@ class UserDetailsViewModel {
     private(set) var userDetails: UserDetails?
     
     //MARK: - Helper Methods
-    func fetchUserData(success: @escaping (_ user: UserDetails) -> Void,
-                       failure: @escaping (_ code: Int?, _ message: String?) -> ()) {
+    func fetchUserData(completion: @escaping (Result<UserDetails, CustomError>) -> Void) {
         
         guard let username = username,
               let url = URL(string: AppConstants.Url.users + "/" + username) else {
             
-            failure(nil, "Invalid user or URL")
+                  completion(.failure(CustomError(code: nil, message: "invalid URL")))
             return
         }
         
         let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             if let error = error {
-                failure(nil, "Error: \(error.localizedDescription)")
+                completion(.failure(CustomError(code: nil, message: "Error: \(error.localizedDescription)")))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                failure(nil, "Error with the response, unexpected status code: \(response?.description ?? "")")
+                      
+                      completion(.failure(CustomError(code: nil, message: "Error with the response, unexpected status code: \(response?.description ?? "")")))
                 return
             }
             
             guard let data = data, let userDetails = try? JSONDecoder().decode(UserDetails.self, from: data) else {
-                failure(nil, "unable to parse data")
+                completion(.failure(CustomError(code: nil, message: "Unable to parse data")))
                 return
             }
             self.userDetails = userDetails
-            success(userDetails)
+            completion(.success(userDetails))
         })
         task.resume()
     }

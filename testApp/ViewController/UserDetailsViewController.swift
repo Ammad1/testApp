@@ -8,7 +8,7 @@
 import UIKit
 
 class UserDetailsViewController: BaseViewController {
-
+    
     //MARK: - Outlets
     @IBOutlet var userDetailsView: UserDetailsView!
     
@@ -23,22 +23,27 @@ class UserDetailsViewController: BaseViewController {
         userDetailsView.textView.delegate = self
         userDetailsView.setImage(withUserId: viewModel.userId)
         LoaderManager.show(self.view, message: AppConstants.Message.pleaseWait)
-        viewModel.fetchUserData { user in
+        
+        viewModel.fetchUserData { result in
             DispatchQueue.main.async {
                 LoaderManager.hide(self.view)
-                self.userDetailsView.setData(self.viewModel.userDetails)
-                CoreDataManager.shared.retrieveNotes(forId: user.id) { notes in
-                    self.viewModel.previousNotes = notes
-                    self.userDetailsView.setNotesData(notes)
+                
+                switch result {
+                case .success(let userDetails):
+                    
+                    self.userDetailsView.setData(self.viewModel.userDetails)
+                    CoreDataManager.shared.retrieveNotes(forId: userDetails.id) { notes in
+                        //Comment: So i can get the previous notes, so as to prevent user from saving the same notes again
+                        self.viewModel.previousNotes = notes
+                        self.userDetailsView.setNotesData(notes)
+                    }
+                    
+                case .failure(let error):
+                    self.showAlert(title: AppConstants.Message.error, message: error.errorMessage)
+                    
                 }
             }
-        } failure: { code, message in
-            DispatchQueue.main.async {
-                LoaderManager.hide(self.view)
-                self.showAlert(title: AppConstants.Message.error, message: message ?? AppConstants.Message.somethingWrong)
-            }
         }
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,7 +52,7 @@ class UserDetailsViewController: BaseViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationItem.title = viewModel.username
     }
-
+    
     //MARK: - Action Methods
     @IBAction
     func savePressed(_ sender: UIButton) {
@@ -63,14 +68,14 @@ class UserDetailsViewController: BaseViewController {
             }
             alertMessage = AppConstants.Message.notesDeleted
             
-        //Comment: If previous notes was empty it means this is a new note
+            //Comment: If previous notes was empty it means this is a new note
         } else if viewModel.previousNotes == "" {
             CoreDataManager.shared.saveNotes(forId: viewModel.userDetails?.id, notes) {
                 self.delegate?.NotesUpdated()
             }
             alertMessage = AppConstants.Message.notesSaved
             
-        //Comment: Else case would be if there was some previous note and we are updating it
+            //Comment: Else case would be if there was some previous note and we are updating it
         } else {
             CoreDataManager.shared.updateNote(forId: viewModel.userDetails?.id, notes) {
                 self.delegate?.NotesUpdated()
