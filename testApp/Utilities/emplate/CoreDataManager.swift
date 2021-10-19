@@ -38,23 +38,6 @@ class CoreDataManager {
     private init() {}
     
     //MARK: - Helper Methods
-    private func saveContext () {
-        DispatchQueue.main.async {
-            if self.context.hasChanges {
-                do {
-                    try self.context.save()
-                } catch {
-                    let nserror = error as NSError
-                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                }
-            }
-        }
-    }
-}
-
-//MARK: - User Entity Methods
-extension CoreDataManager {
-    
     func saveUser(_ userData: User) {
         DispatchQueue.main.async {
             let userEntity = NSEntityDescription.entity(forEntityName: EntityName.User.rawValue, in: self.context)!
@@ -147,100 +130,6 @@ extension CoreDataManager {
             }
         }
     }
-}
-
-//MARK: - Notes Entity Methods
-extension CoreDataManager {
-    
-    func saveNotes(forId id: Int?, _ data: String) {
-        guard let userId = id else { return }
-        
-        DispatchQueue.main.async {
-            let notesEntity = NSEntityDescription.entity(forEntityName: EntityName.Notes.rawValue, in: self.context)!
-            let notes = NSManagedObject(entity: notesEntity, insertInto: self.context)
-            notes.setValue(data, forKey: "note")
-            notes.setValue(userId, forKey: "id")
-            
-            self.saveContext()
-        }
-    }
-    
-    func updateNote(forId id: Int?, _ data: String) {
-        guard let userId = id else { return }
-        DispatchQueue.main.async {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.Notes.rawValue)
-            fetchRequest.predicate = NSPredicate(format: "id = %d", userId)
-            do
-            {
-                if let result = try self.context.fetch(fetchRequest) as? [NSManagedObject] {
-                    
-                    for object in result {
-                        object.setValue(data, forKey: "note")
-                    }
-                    self.saveContext()
-                }
-                
-            }
-            catch
-            {
-                print(error)
-            }
-        }
-        
-    }
-    
-    func deleteNote(forId id: Int?) {
-        guard let userId = id else { return }
-        DispatchQueue.main.async {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.Notes.rawValue)
-            fetchRequest.predicate = NSPredicate(format: "id = %d", userId)
-            
-            do
-            {
-                if let result = try self.context.fetch(fetchRequest) as? [NSManagedObject] {
-                    for data in result {
-                        self.context.delete(data)
-                    }
-                }
-                
-                self.saveContext()
-                
-            }
-            catch
-            {
-                print(error)
-            }
-        }
-    }
-    
-    func retrieveNotes(forId id: Int?) -> String {
-        var noteValue = ""
-        guard let userId = id else { return noteValue }
-        DispatchQueue.main.async {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.Notes.rawValue)
-            
-            fetchRequest.fetchLimit = 1
-            fetchRequest.predicate = NSPredicate(format: "id = %d", userId)
-            
-            do {
-                if let result = try self.context.fetch(fetchRequest) as? [NSManagedObject] {
-                    for data in result {
-                        noteValue = data.value(forKey: "note") as? String ?? ""
-                    }
-                }
-                
-                
-            } catch {
-                print("Failed")
-            }
-        }
-        return noteValue
-        
-    }
-}
-
-//MARK: - Profile Entity Methods
-extension CoreDataManager {
     
     func profileViewed(withUserId id: Int?, completion: @escaping ()->()) {
         guard let userId = id else {
@@ -278,4 +167,121 @@ extension CoreDataManager {
             }
         }
     }
+    
+    func saveNotes(forId id: Int?, _ data: String, completion: (()->())? = nil) {
+        guard let userId = id else { return }
+        
+        DispatchQueue.main.async {
+            let notesEntity = NSEntityDescription.entity(forEntityName: EntityName.Notes.rawValue, in: self.context)!
+            let notes = NSManagedObject(entity: notesEntity, insertInto: self.context)
+            notes.setValue(data, forKey: "note")
+            notes.setValue(userId, forKey: "id")
+            
+            self.saveContext(completion)
+        }
+    }
+    
+    func updateNote(forId id: Int?, _ data: String, completion: (()->())? = nil) {
+        guard let userId = id else { return }
+        DispatchQueue.main.async {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.Notes.rawValue)
+            fetchRequest.predicate = NSPredicate(format: "id = %d", userId)
+            do
+            {
+                if let result = try self.context.fetch(fetchRequest) as? [NSManagedObject] {
+                    
+                    for object in result {
+                        object.setValue(data, forKey: "note")
+                    }
+                    self.saveContext(completion)
+                }
+                
+            }
+            catch
+            {
+                print(error)
+            }
+        }
+        
+    }
+    
+    func deleteNote(forId id: Int?, completion: (()->())? = nil) {
+        guard let userId = id else { return }
+        DispatchQueue.main.async {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.Notes.rawValue)
+            fetchRequest.predicate = NSPredicate(format: "id = %d", userId)
+            
+            do
+            {
+                if let result = try self.context.fetch(fetchRequest) as? [NSManagedObject] {
+                    for data in result {
+                        self.context.delete(data)
+                    }
+                }
+                
+                self.saveContext(completion)
+                
+            }
+            catch
+            {
+                print(error)
+            }
+        }
+    }
+    
+    func retrieveNotes(forId id: Int?, completion: ((String)->())? = nil) {
+        var noteValue = ""
+        guard let userId = id else { return }
+        DispatchQueue.main.async {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.Notes.rawValue)
+            
+            fetchRequest.fetchLimit = 1
+            fetchRequest.predicate = NSPredicate(format: "id = %d", userId)
+            
+            do {
+                if let result = try self.context.fetch(fetchRequest) as? [NSManagedObject] {
+                    for data in result {
+                        noteValue = data.value(forKey: "note") as? String ?? ""
+                    }
+                }
+                completion?(noteValue)
+                
+            } catch {
+                print("Failed")
+            }
+        }
+        
+    }
+    
+    private func saveContext (_ completion: (()->())? = nil) {
+        DispatchQueue.main.async {
+            if self.context.hasChanges {
+                do {
+                    try self.context.save()
+                    completion?()
+                } catch {
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                }
+            }
+        }
+    }
+}
+
+//MARK: - User Entity Methods
+extension CoreDataManager {
+    
+    
+}
+
+//MARK: - Notes Entity Methods
+extension CoreDataManager {
+    
+    
+}
+
+//MARK: - Profile Entity Methods
+extension CoreDataManager {
+    
+    
 }

@@ -15,7 +15,7 @@ class UserDetailsViewModel {
     private(set) var userDetails: UserDetails?
     
     //MARK: - Helper Methods
-    func fetchUserData(success: @escaping () -> Void,
+    func fetchUserData(success: @escaping (_ user: UserDetails) -> Void,
                        failure: @escaping (_ code: Int?, _ message: String?) -> ()) {
         
         guard let username = username,
@@ -42,7 +42,7 @@ class UserDetailsViewModel {
                 return
             }
             self.userDetails = userDetails
-            success()
+            success(userDetails)
         })
         task.resume()
     }

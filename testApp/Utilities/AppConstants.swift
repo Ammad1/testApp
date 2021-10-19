@@ -29,6 +29,8 @@ class AppConstants {
         static let searchUsernamePlaceholder = "Type username to search..."
         static let internetUnavailable = "Internet not available.\nLoading Previously fetched data."
         static let internetAvailable = "Internet available.\nNow you can load new data."
+        static let noInternetMessage = "Please check your internet connection"
+        static let noData = "No Data Available"
     }
     
     struct Url {

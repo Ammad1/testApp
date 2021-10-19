@@ -21,12 +21,16 @@ class UserDetailsViewController: BaseViewController {
         super.viewDidLoad()
         
         userDetailsView.textView.delegate = self
-        userDetailsView.setNotesData(viewModel.previousNotes)
+        
         LoaderManager.show(self.view, message: AppConstants.Message.pleaseWait)
-        viewModel.fetchUserData {
+        viewModel.fetchUserData { user in
             DispatchQueue.main.async {
                 LoaderManager.hide(self.view)
                 self.userDetailsView.setData(self.viewModel.userDetails)
+                CoreDataManager.shared.retrieveNotes(forId: user.id) { notes in
+                    self.viewModel.previousNotes = notes
+                    self.userDetailsView.setNotesData(notes)
+                }
             }
         } failure: { code, message in
             DispatchQueue.main.async {
@@ -53,20 +57,25 @@ class UserDetailsViewController: BaseViewController {
         }
         var alertMessage = ""
         if userDetailsView.textView.text == "" {
-            CoreDataManager.shared.deleteNote(forId: viewModel.userDetails?.id)
+            CoreDataManager.shared.deleteNote(forId: viewModel.userDetails?.id) {
+                self.delegate?.NotesUpdated()
+            }
             alertMessage = AppConstants.Message.notesDeleted
             
         } else if viewModel.previousNotes == "" {
-            CoreDataManager.shared.saveNotes(forId: viewModel.userDetails?.id, notes)
+            CoreDataManager.shared.saveNotes(forId: viewModel.userDetails?.id, notes) {
+                self.delegate?.NotesUpdated()
+            }
             alertMessage = AppConstants.Message.notesSaved
             
         } else {
-            CoreDataManager.shared.updateNote(forId: viewModel.userDetails?.id, notes)
+            CoreDataManager.shared.updateNote(forId: viewModel.userDetails?.id, notes) {
+                self.delegate?.NotesUpdated()
+            }
             alertMessage = AppConstants.Message.notesUpdated
         }
         
         viewModel.previousNotes = notes
-        delegate?.NotesUpdated()
         self.view.endEditing(true)
         userDetailsView.disableSaveButton(isSameText: true)
         self.showAlert(title: AppConstants.Message.success, message: alertMessage, completion: nil)

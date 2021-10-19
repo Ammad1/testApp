@@ -27,11 +27,6 @@ struct User : Codable {
     var receivedEventsUrl : String?
     var type : String?
     var siteAdmin : Bool?
-    var notes: String {
-        get {
-            return CoreDataManager.shared.retrieveNotes(forId: id)
-        }
-    }
 
     enum CodingKeys: String, CodingKey {
 
@@ -58,46 +53,6 @@ struct User : Codable {
     init() {
         
     }
-//    init(userManagedObject: NSManagedObject) {
-//        login = userManagedObject.value(forKey: "login")
-//        id = userManagedObject.value(forKey: "id")
-//        nodeId = userManagedObject.value(forKey: "nodeId")
-//        avatarUrl = userManagedObject.value(forKey: "avatarUrl")
-//        avatarId = userManagedObject.value(forKey: "gravatarId")
-//        url = userManagedObject.value(forKey: "url")
-//        htmlUrl =          userManagedObject.value(forKey: "htmlUrl")
-//        followersUrl =     userManagedObject.value(forKey: "followersUrl")
-//        followingUrl =     userManagedObject.value(forKey: "followingUrl")
-//        gistsUrl =         userManagedObject.value(forKey: "gistsUrl")
-//        starredUrl =       userManagedObject.value(forKey: "starredUrl")
-//        subscriptionsUrl = userManagedObject.value(forKey: "subscriptionsUrl")
-//        organizationsUrl = userManagedObject.value(forKey: "organizationsUrl")
-//        reposUrl =         userManagedObject.value(forKey: "reposUrl")
-//        eventsUrl =        userManagedObject.value(forKey: "eventsUrl")
-//        receivedEventsUrl =userManagedObject.value(forKey: "receivedEventsUrl")
-//        type =             userManagedObject.value(forKey: "type")
-//        siteAdmin =        userManagedObject.value(forKey: "siteAdmin")
-//
-//        login =             user.login
-//        id =                user.id
-//        nodeId =            user.nodeId
-//        avatarUrl =         user.avatarUrl
-//        avatarId =          user.avatarId
-//        url =               user.url
-//        htmlUrl =           user.htmlUrl
-//        followersUrl =      user.followersUrl
-//        followingUrl =      user.followingUrl
-//        gistsUrl =          user.gistsUrl
-//        starredUrl =        user.starredUrl
-//        subscriptionsUrl =  user.subscriptionsUrl
-//        organizationsUrl =  user.organizationsUrl
-//        reposUrl =          user.reposUrl
-//        eventsUrl =         user.eventsUrl
-//        receivedEventsUrl = user.receivedEventsUrl
-//        type =              user.type
-//        siteAdmin =         user.siteAdmin
-//        notes = ""
-//    }
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)

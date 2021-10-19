@@ -24,7 +24,13 @@ class MainView: UIView {
     //MARK: - Helper Methods
     func initiateView() {
         
-        noInternetLabel.text = "Please check your internet connection"
+        stackView.axis = .vertical
+        stackView.spacing = 15.0
+        stackView.addArrangedSubview(noInternetView)
+        stackView.addArrangedSubview(tableView)
+        stackView.addArrangedSubview(noDataView)
+        
+        noInternetLabel.text = AppConstants.Message.noInternetMessage
         noInternetLabel.textAlignment = .center
         noInternetLabel.textColor = .white
         noInternetLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
@@ -34,7 +40,7 @@ class MainView: UIView {
         
         noDataLabel.textColor = .label
         noDataLabel.textAlignment = .center
-        noDataLabel.text = "No Data Available"
+        noDataLabel.text = AppConstants.Message.noData
         noDataLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         
         noDataView.backgroundColor = .systemBackground
@@ -80,14 +86,13 @@ class MainView: UIView {
         noDataLabel.translatesAutoresizingMaskIntoConstraints = false
         noInternetView.translatesAutoresizingMaskIntoConstraints = false
         noInternetLabel.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         self.backgroundColor = .systemBackground
         self.addSubview(headerView)
         noInternetView.addSubview(noInternetLabel)
         noDataView.addSubview(noDataLabel)
-        self.addSubview(noDataView)
-        self.addSubview(tableView)
-        self.addSubview(noInternetView)
+        self.addSubview(stackView)
 
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
@@ -112,26 +117,18 @@ class MainView: UIView {
             searchTextField.topAnchor.constraint(equalTo: searchOuterView.topAnchor, constant: 0),
             searchTextField.heightAnchor.constraint(equalToConstant: 35),
             
-            tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
-            tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            tableView.topAnchor.constraint(equalTo: noInternetView.bottomAnchor, constant: 15),
-            
-            noDataView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
-            noDataView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            noDataView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            noDataView.topAnchor.constraint(equalTo: noInternetView.bottomAnchor, constant: 15),
+            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
+            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+            stackView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0),
             
             noDataLabel.leadingAnchor.constraint(equalTo: noDataView.leadingAnchor, constant: 10),
             noDataLabel.trailingAnchor.constraint(equalTo: noDataView.trailingAnchor, constant: -10),
             noDataLabel.heightAnchor.constraint(equalToConstant: 25),
             noDataLabel.centerYAnchor.constraint(equalTo: noDataView.centerYAnchor),
             
-            noInternetView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            noInternetView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            noInternetView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0),
             noInternetView.heightAnchor.constraint(equalToConstant: 50),
-           
+            
             noInternetLabel.leadingAnchor.constraint(equalTo: noInternetView.leadingAnchor, constant: 10),
             noInternetLabel.trailingAnchor.constraint(equalTo: noInternetView.trailingAnchor, constant: -10),
             noInternetLabel.heightAnchor.constraint(equalToConstant: 25),
@@ -141,7 +138,7 @@ class MainView: UIView {
     }
     
     func hideNoInternetView(_ isHide: Bool) {
-        self.noInternetView.isHidden = isHide
+        noInternetView.isHidden = isHide
     }
     
     func updateViews(isDataAvailable isAvailable: Bool) {

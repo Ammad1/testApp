@@ -44,6 +44,7 @@ class MainViewController: BaseViewController {
             mainView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
         ])
         mainView.initiateView()
+        mainView.hideNoInternetView(self.isInternetAvailable)
         
         mainView.tableView.register(UserListTableViewCell.self, forCellReuseIdentifier: AppConstants.Identifier.MainControllerCell)
         mainView.searchTextField.delegate = self
@@ -142,7 +143,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         controller.viewModel.username = user.login
-        controller.viewModel.previousNotes = user.notes
         controller.delegate = self
         self.navigationController?.pushViewController(controller, animated: true)
     }
@@ -185,6 +185,7 @@ extension MainViewController: UITextFieldDelegate {
             self.mainView.tableView.reloadData()
             self.mainView.updateViews(isDataAvailable: self.viewModel.filteredUsers.count > 0)
         }
+        textField.resignFirstResponder()
         return true
     }
 }

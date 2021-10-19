@@ -75,7 +75,9 @@ class UserListTableViewCell: UITableViewCell {
     
     func setData(_ user: User, isInvertedImage: Bool) {
         usernameLabel.text = user.login ?? AppConstants.Message.unavailable
-        noteIcon.isHidden = user.notes.isEmpty
+        CoreDataManager.shared.retrieveNotes(forId: user.id, completion: { notes in
+            self.noteIcon.isHidden = notes.isEmpty
+        })
         
         CoreDataManager.shared.isProfileViewed(withUserId: user.id) { isViewed in
             if isViewed {
