@@ -38,6 +38,24 @@ class CoreDataManager {
     private init() {}
     
     //MARK: - Helper Methods
+    private func saveContext (_ completion: (()->())? = nil) {
+        DispatchQueue.main.async {
+            if self.context.hasChanges {
+                do {
+                    try self.context.save()
+                    completion?()
+                } catch {
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                }
+            }
+        }
+    }
+}
+
+//MARK: - User Entity Methods
+extension CoreDataManager {
+    
     func saveUser(_ userData: User) {
         DispatchQueue.main.async {
             let userEntity = NSEntityDescription.entity(forEntityName: EntityName.User.rawValue, in: self.context)!
@@ -130,43 +148,10 @@ class CoreDataManager {
             }
         }
     }
-    
-    func profileViewed(withUserId id: Int?, completion: @escaping ()->()) {
-        guard let userId = id else {
-            return
-        }
-        
-        isProfileViewed(withUserId: id) { isViewed in
-            if isViewed == false {
-                DispatchQueue.main.async {
-                    let profileEntity = NSEntityDescription.entity(forEntityName: EntityName.ProfileViewed.rawValue, in: self.context)!
-                    let profile = NSManagedObject(entity: profileEntity, insertInto: self.context)
-                    profile.setValue(userId, forKey: "id")
-                    
-                    self.saveContext()
-                    completion()
-                }
-            }
-        }
-    }
-    
-    func isProfileViewed(withUserId id: Int?, completion: @escaping (_ isViewed: Bool)->()) {
-        guard let userId = id else { return }
-        DispatchQueue.main.async {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.ProfileViewed.rawValue)
-            
-            fetchRequest.predicate = NSPredicate(format: "id = %d", userId)
-            
-            do {
-                let result = try self.context.fetch(fetchRequest) as? [NSManagedObject]
-                let isViewed = (result?.count ?? 0) > 0
-                completion(isViewed)
-                
-            } catch {
-                print("Failed")
-            }
-        }
-    }
+}
+
+//MARK: - Notes Entity Methods
+extension CoreDataManager {
     
     func saveNotes(forId id: Int?, _ data: String, completion: (()->())? = nil) {
         guard let userId = id else { return }
@@ -235,7 +220,6 @@ class CoreDataManager {
         DispatchQueue.main.async {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.Notes.rawValue)
             
-            fetchRequest.fetchLimit = 1
             fetchRequest.predicate = NSPredicate(format: "id = %d", userId)
             
             do {
@@ -253,35 +237,45 @@ class CoreDataManager {
         
     }
     
-    private func saveContext (_ completion: (()->())? = nil) {
-        DispatchQueue.main.async {
-            if self.context.hasChanges {
-                do {
-                    try self.context.save()
-                    completion?()
-                } catch {
-                    let nserror = error as NSError
-                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                }
-            }
-        }
-    }
-}
-
-//MARK: - User Entity Methods
-extension CoreDataManager {
-    
-    
-}
-
-//MARK: - Notes Entity Methods
-extension CoreDataManager {
-    
-    
 }
 
 //MARK: - Profile Entity Methods
 extension CoreDataManager {
     
+    func profileViewed(withUserId id: Int?, completion: @escaping ()->()) {
+        guard let userId = id else {
+            return
+        }
+        
+        isProfileViewed(withUserId: id) { isViewed in
+            if isViewed == false {
+                DispatchQueue.main.async {
+                    let profileEntity = NSEntityDescription.entity(forEntityName: EntityName.ProfileViewed.rawValue, in: self.context)!
+                    let profile = NSManagedObject(entity: profileEntity, insertInto: self.context)
+                    profile.setValue(userId, forKey: "id")
+                    
+                    self.saveContext()
+                    completion()
+                }
+            }
+        }
+    }
     
+    func isProfileViewed(withUserId id: Int?, completion: @escaping (_ isViewed: Bool)->()) {
+        guard let userId = id else { return }
+        DispatchQueue.main.async {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.ProfileViewed.rawValue)
+            
+            fetchRequest.predicate = NSPredicate(format: "id = %d", userId)
+            
+            do {
+                let result = try self.context.fetch(fetchRequest) as? [NSManagedObject]
+                let isViewed = (result?.count ?? 0) > 0
+                completion(isViewed)
+                
+            } catch {
+                print("Failed")
+            }
+        }
+    }
 }

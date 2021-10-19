@@ -10,6 +10,7 @@ import Foundation
 class MainControllerViewModel {
     
     //MARK: - Properties
+    //Comment: Two variables used, user contains all the data fetched till now and filtered contains the filter/unfilter data. Data is filtered and un filtered from this users array. When searching is done and someone want to get out of search, instead of hitting the API we can just simply use the fetched users in the users array. Users array only appends new data.
     private var users = [User]()
     private(set)var filteredUsers = [User]()
     

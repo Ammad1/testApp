@@ -56,18 +56,21 @@ class UserDetailsViewController: BaseViewController {
             notes = ""
         }
         var alertMessage = ""
-        if userDetailsView.textView.text == "" {
+        //Comment: If notes text view has placeholder it means we want to delete notes
+        if userDetailsView.textView.text == AppConstants.Message.addNotesPlaceholder {
             CoreDataManager.shared.deleteNote(forId: viewModel.userDetails?.id) {
                 self.delegate?.NotesUpdated()
             }
             alertMessage = AppConstants.Message.notesDeleted
             
+        //Comment: If previous notes was empty it means this is a new note
         } else if viewModel.previousNotes == "" {
             CoreDataManager.shared.saveNotes(forId: viewModel.userDetails?.id, notes) {
                 self.delegate?.NotesUpdated()
             }
             alertMessage = AppConstants.Message.notesSaved
             
+        //Comment: Else case would be if there was some previous note and we are updating it
         } else {
             CoreDataManager.shared.updateNote(forId: viewModel.userDetails?.id, notes) {
                 self.delegate?.NotesUpdated()

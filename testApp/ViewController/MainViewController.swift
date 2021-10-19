@@ -54,6 +54,7 @@ class MainViewController: BaseViewController {
         
         spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: mainView.tableView.bounds.width, height: CGFloat(40))
         
+        //Comment: Incase internet is not available, it will load offline data
         if isInternetAvailable {
             if isFirstTimeLoaded == false {
                 fetchUsers()
@@ -66,6 +67,10 @@ class MainViewController: BaseViewController {
     }
 
     //MARK: - Helper Methods
+    /*Comment:
+     isApiInProgress = So that one Api hit at a time
+     isFirstTimeLoaded = So as to check if one time data is loaded? it helps when internet is available or not. It is user to handle the scenario, if there is no internet in the start and once internet is back, it will load the first page of users.
+     */
     private func fetchUsers(completion: (()->Void)? = nil) {
         guard isApiInProgress == false else { return }
         isApiInProgress = true
@@ -100,6 +105,7 @@ class MainViewController: BaseViewController {
         }
     }
     
+    //Comment: If first time not loaded and internet is back, then load data. else if data is loaded first time then latest data is already loaded, so no need to hit the API as if you need more data, you can always scroll and get it via pagination
     override func internetAvailable() {
         mainView.hideNoInternetView(true)
         if isFirstTimeLoaded == false {
@@ -153,6 +159,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let lastSectionIndex = tableView.numberOfSections - 1
         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
         if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
+            //Comment: If searching mode on, no need to have pagination. isPaginationCompleted means that no new data is available and all the pages have been loaded
             if !isPaginationCompleted, isSearching == false {
                 spinner.startAnimating()
                 mainView.tableView.tableFooterView = spinner

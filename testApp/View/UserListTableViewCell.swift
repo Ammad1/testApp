@@ -89,6 +89,7 @@ class UserListTableViewCell: UITableViewCell {
             userImageView.image = .noUserImage
             return
         }
+        //Comment: If image present on disk, load it and check for inverted and proceed accordingly. If not then download the image, store it on disk and use it in our imageview
         if ImageCacheManager.shared.isImageAlreadySaved(imageName: String(userId)) {
             guard let image = ImageCacheManager.shared.loadImageFromDiskWith(fileName: String(userId)) else {
                 self.userImageView.image = .noUserImage
