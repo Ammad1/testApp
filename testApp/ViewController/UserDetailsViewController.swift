@@ -22,6 +22,9 @@ class UserDetailsViewController: BaseViewController {
         
         userDetailsView.textView.delegate = self
         userDetailsView.setImage(withUserId: viewModel.userId)
+        viewModel.loadPreviousNotes { notes in
+            self.userDetailsView.setNotesData(notes)
+        }
         LoaderManager.show(self.view, message: AppConstants.Message.pleaseWait)
         
         viewModel.fetchUserData { result in
@@ -31,12 +34,7 @@ class UserDetailsViewController: BaseViewController {
                 switch result {
                 case .success(let userDetails):
                     
-                    self.userDetailsView.setData(self.viewModel.userDetails)
-                    CoreDataManager.shared.retrieveNotes(forId: userDetails.id) { notes in
-                        //Comment: So i can get the previous notes, so as to prevent user from saving the same notes again
-                        self.viewModel.previousNotes = notes
-                        self.userDetailsView.setNotesData(notes)
-                    }
+                    self.userDetailsView.setData(userDetails)
                     
                 case .failure(let error):
                     self.showAlert(title: AppConstants.Message.error, message: error.errorMessage)
@@ -83,7 +81,7 @@ class UserDetailsViewController: BaseViewController {
             alertMessage = AppConstants.Message.notesUpdated
         }
         
-        viewModel.previousNotes = notes
+        viewModel.loadPreviousNotes()
         self.view.endEditing(true)
         userDetailsView.disableSaveButton(isSameText: true)
         self.showAlert(title: AppConstants.Message.success, message: alertMessage, completion: nil)

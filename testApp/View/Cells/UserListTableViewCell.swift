@@ -35,10 +35,6 @@ class UserListTableViewCell: BaseTableViewCell {
             
         ])
     }
-    
-    func setData(_ user: User, isInvertedImage: Bool) {
-        
-    }
 }
 
 extension UserListTableViewCell: UserSimpleCellDelegate {

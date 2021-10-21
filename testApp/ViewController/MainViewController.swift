@@ -46,7 +46,9 @@ class MainViewController: BaseViewController {
         mainView.initiateView()
         mainView.hideNoInternetView(self.isInternetAvailable)
         
-        mainView.tableView.register(UserListTableViewCell.self, forCellReuseIdentifier: AppConstants.Identifier.MainControllerCell)
+        mainView.tableView.register(UserListTableViewCell.self, forCellReuseIdentifier: AppConstants.Identifier.UserSimpleTableViewCell)
+        mainView.tableView.register(UserInvertedTableViewCell.self, forCellReuseIdentifier: AppConstants.Identifier.UserInvertedTableViewCell)
+        mainView.tableView.register(UserNotesTableViewCell.self, forCellReuseIdentifier: AppConstants.Identifier.UserNotesTableViewCell)
         mainView.searchTextField.delegate = self
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
@@ -125,16 +127,16 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: AppConstants.Identifier.MainControllerCell) as? UserListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: AppConstants.Identifier.UserNotesTableViewCell) as? UserNotesTableViewCell else {
             return UITableViewCell()
         }
         let user = viewModel.filteredUsers[indexPath.row]
         cell.configure(id: user.id)
-        var isInverted = false
-        if ((indexPath.row + 1) % 4) == 0 {
-            isInverted = true
-        }
-        cell.setData(user, isInvertedImage: isInverted)
+//        var isInverted = false
+//        if ((indexPath.row + 1) % 4) == 0 {
+//            isInverted = true
+//        }
+        cell.setData(user: user)
         return cell
     }
     

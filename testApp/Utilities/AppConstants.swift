@@ -10,7 +10,9 @@ import Foundation
 class AppConstants {
     
     struct Identifier {
-        static let MainControllerCell = "UserListTableViewCell"
+        static let UserSimpleTableViewCell = "UserListTableViewCell"
+        static let UserInvertedTableViewCell = "UserInvertedTableViewCell"
+        static let UserNotesTableViewCell = "UserNotesTableViewCell"
         static let UserDetailsViewController = "UserDetailsViewController"
         static let Main = "Main"
     }

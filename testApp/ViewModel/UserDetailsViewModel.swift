@@ -12,10 +12,18 @@ class UserDetailsViewModel {
     //MARK: - Properties
     var username: String?
     var userId: Int?
-    var previousNotes = ""
+    private(set)var previousNotes = ""
     private(set) var userDetails: UserDetails?
     
     //MARK: - Helper Methods
+    func loadPreviousNotes(completion: ((_ notes: String)->())? = nil) {
+        CoreDataManager.shared.retrieveNotes(forId: userId) { notes in
+            //Comment: So i can get the previous notes, so as to prevent user from saving the same notes again
+            self.previousNotes = notes
+            completion?(notes)
+        }
+    }
+    
     func fetchUserData(completion: @escaping (Result<UserDetails, CustomError>) -> Void) {
         
         guard let username = username,

@@ -84,7 +84,7 @@ class BaseTableViewCell: UITableViewCell {
                 return
             }
             
-            setImage(image)
+            setImage(image, shouldInverse: shouldInverse)
             
         } else {
             guard let urlString = user.avatarUrl, let imageUrl = URL(string: urlString) else {
@@ -100,11 +100,9 @@ class BaseTableViewCell: UITableViewCell {
                     return
                 }
                 
-                let userImage = image
-                
                 DispatchQueue.main.async {
-                    ImageCacheManager.shared.saveImage(imageName: String(userId), image: userImage)
-                    self.setImage(image)
+                    ImageCacheManager.shared.saveImage(imageName: String(userId), image: image)
+                    self.setImage(image, shouldInverse: shouldInverse)
                 }
             }
         }
