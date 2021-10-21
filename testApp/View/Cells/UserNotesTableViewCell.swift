@@ -1,14 +1,18 @@
 //
-//  UserListTableViewCell.swift
+//  UserNotesTableViewCell.swift
 //  testApp
 //
-//  Created by Ammad Tariq on 02/10/2021.
+//  Created by Ammad Tariq on 21/10/2021.
 //
 
 import UIKit
 
-class UserListTableViewCell: UITableViewCell {
-    
+protocol UserNoteCellDelegate {
+    func setData(user: User)
+}
+
+class UserNotesTableViewCell: UITableViewCell {
+
     //MARK: - Properties
     var userImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     var dataOuterView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
@@ -138,4 +142,5 @@ class UserListTableViewCell: UITableViewCell {
             }
         }
     }
+
 }

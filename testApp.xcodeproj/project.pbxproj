@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2539C06A270A336500F0FEED /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2539C069270A336500F0FEED /* NotificationExtension.swift */; };
+		2553B1252720DDEA0044D76B /* UserInvertedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2553B1242720DDEA0044D76B /* UserInvertedTableViewCell.swift */; };
+		2553B1272720DDF90044D76B /* UserNotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2553B1262720DDF90044D76B /* UserNotesTableViewCell.swift */; };
+		2553B1292720DE360044D76B /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2553B1282720DE360044D76B /* BaseTableViewCell.swift */; };
 		25582865270F784300EC9CEB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25582864270F784300EC9CEB /* MainView.swift */; };
 		259E0EEC271AE60A002BA512 /* testApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* testApp.xcdatamodeld */; };
 		259E0EED271AE60B002BA512 /* testApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25DEA1362714D0CD006D9F47 /* testApp.xcdatamodeld */; };
@@ -60,6 +63,9 @@
 /* Begin PBXFileReference section */
 		06CBCA9E14DE78AA60FD465E /* Pods-testApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testApp.release.xcconfig"; path = "Target Support Files/Pods-testApp/Pods-testApp.release.xcconfig"; sourceTree = "<group>"; };
 		2539C069270A336500F0FEED /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
+		2553B1242720DDEA0044D76B /* UserInvertedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInvertedTableViewCell.swift; sourceTree = "<group>"; };
+		2553B1262720DDF90044D76B /* UserNotesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotesTableViewCell.swift; sourceTree = "<group>"; };
+		2553B1282720DE360044D76B /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		25582864270F784300EC9CEB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		259E0EF0271D8905002BA512 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		259E0EF2271DE534002BA512 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
@@ -129,6 +135,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2553B1232720DDB50044D76B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				25D2D5DB2707A4C000419E4B /* UserListTableViewCell.swift */,
+				2553B1242720DDEA0044D76B /* UserInvertedTableViewCell.swift */,
+				2553B1262720DDF90044D76B /* UserNotesTableViewCell.swift */,
+				2553B1282720DE360044D76B /* BaseTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		25D2D597270633CB00419E4B = {
 			isa = PBXGroup;
 			children = (
@@ -202,7 +219,7 @@
 		25D2D5D4270636B700419E4B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				25D2D5DB2707A4C000419E4B /* UserListTableViewCell.swift */,
+				2553B1232720DDB50044D76B /* Cells */,
 				25D2D5EC270928F700419E4B /* UserDetailsView.swift */,
 				25582864270F784300EC9CEB /* MainView.swift */,
 			);
@@ -504,11 +521,13 @@
 			files = (
 				25D2D5DC2707A4C000419E4B /* UserListTableViewCell.swift in Sources */,
 				25582865270F784300EC9CEB /* MainView.swift in Sources */,
+				2553B1272720DDF90044D76B /* UserNotesTableViewCell.swift in Sources */,
 				25E35A7B2717807200FE1469 /* SearchUsers.swift in Sources */,
 				25D2D5E927091F1100419E4B /* AppConstants.swift in Sources */,
 				25EB25C6271E33C70065E862 /* testApp.xcdatamodeld in Sources */,
 				25DEA1352714CF3E006D9F47 /* CoreDataManager.swift in Sources */,
 				259E0EF1271D8905002BA512 /* CustomError.swift in Sources */,
+				2553B1252720DDEA0044D76B /* UserInvertedTableViewCell.swift in Sources */,
 				25D2D5E227091E8400419E4B /* UserDetails.swift in Sources */,
 				25D2D5E02708FC5E00419E4B /* MainControllerViewModel.swift in Sources */,
 				25D2D5D8270636D400419E4B /* BaseViewController.swift in Sources */,
@@ -516,6 +535,7 @@
 				25D2D5A4270633CB00419E4B /* AppDelegate.swift in Sources */,
 				259E0EF3271DE534002BA512 /* ImageCacheManager.swift in Sources */,
 				25D2D5ED270928F700419E4B /* UserDetailsView.swift in Sources */,
+				2553B1292720DE360044D76B /* BaseTableViewCell.swift in Sources */,
 				25D2D5F12709D61500419E4B /* LoaderManager.swift in Sources */,
 				25D2D5E627091EE500419E4B /* UserDetailsViewModel.swift in Sources */,
 				2539C06A270A336500F0FEED /* NotificationExtension.swift in Sources */,
