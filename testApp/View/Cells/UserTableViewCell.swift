@@ -7,14 +7,17 @@
 
 import UIKit
 
-class BaseTableViewCell: UITableViewCell {
+class UserTableViewCell: UITableViewCell {
 
     //MARK: - Properties
     var userImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     var dataOuterView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+    var noteIcon = UIImageView()
+    var usernameLabel = UILabel()
+    var stackView = UIStackView()
     
     //MARK: Helper Methods
-    func configure(id: Int?) {
+    private func configure(id: Int?) {
         self.selectionStyle = .none
         self.backgroundColor = .systemBackground
         dataOuterView.backgroundColor = .systemBackground
@@ -30,9 +33,22 @@ class BaseTableViewCell: UITableViewCell {
         userImageView.image = nil
         userImageView.clipsToBounds = true
         
+        usernameLabel.text = ""
+        
+        noteIcon.image = .noteIcon
+        noteIcon.tintColor = .gray
+        noteIcon.isHidden = true
+        
+        stackView.axis = .horizontal
+        stackView.addArrangedSubview(usernameLabel)
+        stackView.addArrangedSubview(noteIcon)
+        
         dataOuterView.translatesAutoresizingMaskIntoConstraints = false
         userImageView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        usernameLabel.translatesAutoresizingMaskIntoConstraints = false
         
+        dataOuterView.addSubview(stackView)
         dataOuterView.addSubview(userImageView)
         self.addSubview(dataOuterView)
         
@@ -47,6 +63,14 @@ class BaseTableViewCell: UITableViewCell {
             userImageView.bottomAnchor.constraint(equalTo: dataOuterView.bottomAnchor, constant: -10),
             userImageView.heightAnchor.constraint(equalToConstant: 50),
             userImageView.widthAnchor.constraint(equalToConstant: 50),
+            
+            stackView.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: dataOuterView.trailingAnchor, constant: -10),
+            stackView.centerYAnchor.constraint(equalTo: dataOuterView.centerYAnchor),
+            stackView.heightAnchor.constraint(equalToConstant: 21),
+            
+            noteIcon.heightAnchor.constraint(equalToConstant: 20),
+            noteIcon.widthAnchor.constraint(equalToConstant: 20),
             
         ])
         
@@ -72,7 +96,7 @@ class BaseTableViewCell: UITableViewCell {
         }
     }
     
-    func setImageData(forUser user: User, shouldInverse: Bool = false) {
+    private func setImageData(forUser user: User, shouldInverse: Bool) {
         guard let userId = user.id else {
             userImageView.image = .noUserImage
             return
@@ -106,5 +130,15 @@ class BaseTableViewCell: UITableViewCell {
                 }
             }
         }
+    }
+    
+    func setData(forUser user: User, shouldInverse: Bool = false) {
+        configure(id: user.id)
+        
+        usernameLabel.text = user.login ?? AppConstants.Message.unavailable
+        CoreDataManager.shared.retrieveNotes(forId: user.id, completion: { notes in
+            self.noteIcon.isHidden = notes.isEmpty
+        })
+       setImageData(forUser: user, shouldInverse: shouldInverse)
     }
 }

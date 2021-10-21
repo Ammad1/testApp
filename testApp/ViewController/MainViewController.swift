@@ -46,9 +46,7 @@ class MainViewController: BaseViewController {
         mainView.initiateView()
         mainView.hideNoInternetView(self.isInternetAvailable)
         
-        mainView.tableView.register(UserListTableViewCell.self, forCellReuseIdentifier: AppConstants.Identifier.UserSimpleTableViewCell)
-        mainView.tableView.register(UserInvertedTableViewCell.self, forCellReuseIdentifier: AppConstants.Identifier.UserInvertedTableViewCell)
-        mainView.tableView.register(UserNotesTableViewCell.self, forCellReuseIdentifier: AppConstants.Identifier.UserNotesTableViewCell)
+        mainView.tableView.register(UserTableViewCell.self, forCellReuseIdentifier: AppConstants.Identifier.UserTableViewCell)
         mainView.searchTextField.delegate = self
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
@@ -56,45 +54,39 @@ class MainViewController: BaseViewController {
         
         spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: mainView.tableView.bounds.width, height: CGFloat(40))
         
-        //Comment: Incase internet is not available, it will load offline data
-        if isInternetAvailable {
-            if isFirstTimeLoaded == false {
-                fetchUsers()
-            }
-        } else {
-            viewModel.loadOfflineData()
-            mainView.tableView.reloadData()
-            mainView.updateViews(isDataAvailable: self.viewModel.filteredUsers.count > 0)
-        }
     }
 
     //MARK: - Helper Methods
     /*Comment:
      isApiInProgress = So that one Api hit at a time
-     isFirstTimeLoaded = So as to check if one time data is loaded? it helps when internet is available or not. It is user to handle the scenario, if there is no internet in the start and once internet is back, it will load the first page of users.
+     isFirstTimeLoaded = So as to check if one time data is loaded?
      */
     private func fetchUsers(completion: (()->Void)? = nil) {
         guard isApiInProgress == false else { return }
         isApiInProgress = true
         
         if isFirstTimeLoaded == false {
-            LoaderManager.show(self.view, message: AppConstants.Message.pleaseWait)
             CoreDataManager.shared.deleteAllUserData()
             viewModel.resetData()
         }
+        LoaderManager.show(self.view, message: AppConstants.Message.pleaseWait)
         viewModel.fetchUsers { result in
             self.isApiInProgress = false
+            
             DispatchQueue.main.async {
                 LoaderManager.hide(self.view)
                 self.spinner.stopAnimating()
                 
                 switch result {
                 case .success(let isFinished):
-                    
+                    self.mainView.tableView.reloadData()
+                    if self.isFirstTimeLoaded == false, self.viewModel.filteredUsers.count > 0 {
+                        self.mainView.tableView.scrollToRow(at: IndexPath(row: 0,
+                                                                          section: 0), at: .top, animated: true)
+                    }
                     self.isPaginationCompleted = isFinished
                     self.mainView.tableView.tableFooterView?.isHidden = true
                     
-                    self.mainView.tableView.reloadData()
                     self.mainView.updateViews(isDataAvailable: self.viewModel.filteredUsers.count > 0)
                     self.isFirstTimeLoaded = true
                     
@@ -110,13 +102,16 @@ class MainViewController: BaseViewController {
     //Comment: If first time not loaded and internet is back, then load data. else if data is loaded first time then latest data is already loaded, so no need to hit the API as if you need more data, you can always scroll and get it via pagination
     override func internetAvailable() {
         mainView.hideNoInternetView(true)
-        if isFirstTimeLoaded == false {
-            fetchUsers()
-        }
+        fetchUsers()
     }
 
     override func internetUnavailable() {
         mainView.hideNoInternetView(false)
+        isFirstTimeLoaded = false
+        
+        viewModel.loadOfflineData()
+        mainView.tableView.reloadData()
+        mainView.updateViews(isDataAvailable: self.viewModel.filteredUsers.count > 0)
     }
 }
 
@@ -127,16 +122,15 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: AppConstants.Identifier.UserNotesTableViewCell) as? UserNotesTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: AppConstants.Identifier.UserTableViewCell) as? UserTableViewCell else {
+            
             return UITableViewCell()
         }
         let user = viewModel.filteredUsers[indexPath.row]
-        cell.configure(id: user.id)
-//        var isInverted = false
-//        if ((indexPath.row + 1) % 4) == 0 {
-//            isInverted = true
-//        }
-        cell.setData(user: user)
+        
+        let isInverted = (((indexPath.row + 1) % 4) == 0)
+        
+        cell.setData(forUser: user, shouldInverse: isInverted)
         return cell
     }
     
