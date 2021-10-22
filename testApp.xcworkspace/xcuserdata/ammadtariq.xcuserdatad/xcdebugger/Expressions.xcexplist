@@ -3,18 +3,7 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #1 in closure #1 in MainViewController.fetchUsers(isFirstTime:completion:):MainViewController.swift">
-      </ContextState>
-      <ContextState
          contextName = "CoreDataManager.updateNote(forId:_:):CoreDataManager.swift">
-      </ContextState>
-      <ContextState
-         contextName = "MainControllerViewModel.searchUsers(withKeyword:):MainControllerViewModel.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "filteredUsers">
-            </PersistentString>
-         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "MainControllerViewModel.searchUsers(withKeyword:completion:):MainControllerViewModel.swift">
@@ -36,15 +25,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ReachabilityManager.networkStatusChanged(_:):ReachabilityManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "reachability?.connection">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "MainViewController.viewDidLoad():MainViewController.swift">
+         contextName = "closure #1 in closure #1 in MainViewController.fetchUsers(isFirstTime:completion:):MainViewController.swift">
       </ContextState>
       <ContextState
          contextName = "MainViewController.tableView(_:didSelectRowAt:):MainViewController.swift">
@@ -55,10 +36,56 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ReachabilityManager.networkStatusChanged(_:):ReachabilityManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "reachability?.connection">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MainViewController.internetUnavailable():MainViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.viewModel.filteredUsers">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MainViewController.textFieldShouldReturn(_:):MainViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.viewModel.filteredUsers">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "UserDetailsViewController.viewDidLoad():UserDetailsViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "viewModel.notesData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MainViewController.viewDidLoad():MainViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MainControllerViewModel.searchUsers(withKeyword:):MainControllerViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "filteredUsers">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MainViewController.tableView(_:cellForRowAt:):MainViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "filteredUsers">
+            </PersistentString>
+            <PersistentString
+               value = "viewModel.filteredUsers">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

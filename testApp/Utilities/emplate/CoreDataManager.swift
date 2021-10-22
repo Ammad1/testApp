@@ -90,7 +90,7 @@ extension CoreDataManager {
         }
     }
     
-    func retrieveAllUsers() -> [User] {
+    func retrieveAllUsers(completion: (([User])->())? = nil) {
         var users = [User]()
         DispatchQueue.main.async {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.User.rawValue)
@@ -124,14 +124,14 @@ extension CoreDataManager {
                         users.append(user)
                     }
                 }
-                
+                users = users.sorted(by: {$0.id ?? 0 < $1.id ?? 1})
+                completion?(users)
             } catch {
-                
+                completion?(users)
                 print("Failed")
             }
-            users = users.sorted(by: {$0.id ?? 0 < $1.id ?? 1})
+            
         }
-        return users
     }
     
     func deleteAllUserData() {
@@ -231,6 +231,7 @@ extension CoreDataManager {
                 completion?(noteValue)
                 
             } catch {
+                completion?(noteValue)
                 print("Failed")
             }
         }

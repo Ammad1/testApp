@@ -66,7 +66,6 @@ class MainViewController: BaseViewController {
         isApiInProgress = true
         
         if isFirstTimeLoaded == false {
-            CoreDataManager.shared.deleteAllUserData()
             viewModel.resetData()
         }
         LoaderManager.show(self.view, message: AppConstants.Message.pleaseWait)
@@ -107,11 +106,11 @@ class MainViewController: BaseViewController {
 
     override func internetUnavailable() {
         mainView.hideNoInternetView(false)
-        isFirstTimeLoaded = false
         
-        viewModel.loadOfflineData()
-        mainView.tableView.reloadData()
-        mainView.updateViews(isDataAvailable: self.viewModel.filteredUsers.count > 0)
+        viewModel.loadOfflineData {
+            self.mainView.tableView.reloadData()
+            self.mainView.updateViews(isDataAvailable: self.viewModel.filteredUsers.count > 0)
+        }
     }
 }
 

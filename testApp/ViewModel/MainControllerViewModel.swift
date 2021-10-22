@@ -11,7 +11,13 @@ class MainControllerViewModel {
     
     //MARK: - Properties
     //Comment: Two variables used, user contains all the data fetched till now and filtered contains the filter/unfilter data. Data is filtered and un filtered from this users array. When searching is done and someone want to get out of search, instead of hitting the API we can just simply use the fetched users in the users array. Users array only appends new data.
-    private var users = [User]()
+    private var users = [User]() {
+        didSet {
+            if users.count == 0 {
+                CoreDataManager.shared.deleteAllUserData()
+            }
+        }
+    }
     private(set)var filteredUsers = [User]()
     
     //MARK: - Helper Methods
@@ -67,8 +73,11 @@ class MainControllerViewModel {
         task.resume()
     }
     
-    func loadOfflineData() {
-        users = CoreDataManager.shared.retrieveAllUsers()
-        filteredUsers = CoreDataManager.shared.retrieveAllUsers()
+    func loadOfflineData(completion: (()->())? = nil) {
+        CoreDataManager.shared.retrieveAllUsers { offlineUsers in
+            self.users = offlineUsers
+            self.filteredUsers = offlineUsers
+            completion?()
+        }
     }
 }
