@@ -98,7 +98,6 @@ class MainViewController: BaseViewController {
         }
     }
     
-    //Comment: If first time not loaded and internet is back, then load data. else if data is loaded first time then latest data is already loaded, so no need to hit the API as if you need more data, you can always scroll and get it via pagination
     override func internetAvailable() {
         mainView.hideNoInternetView(true)
         fetchUsers()
